@@ -1,0 +1,132 @@
+{% extends 'v_base.html' %}
+{% block title %} Vaccine chart {% endblock title %}
+
+{% block body %}
+<div class="container">
+	<h1>Generate Chart</h1><br/>
+	<form action="chartTest" method="POST">
+		{% csrf_token %}
+		
+		
+		<div class="row">
+			<div class="col-25" style="color:black; font-size:20px;">
+				
+				
+				<center><label for="patient_id" style="align:right">Child ID:</label>
+					
+				</div>
+				<div class="col-75">
+				<input type="text" id="c_id" name="c_id" placeholder="Enter Child ID"></div>
+				<div class="col-25" style="color:black; font-size:20px;">
+					
+					
+					
+						
+					</div>
+					
+					
+					<div class="col-75">
+						{% comment %}       
+						<input type="date" id="dob" name="dob" placeholder="Enter Child DOB"> {% endcomment %}
+						<button type="submit" class="btn btn-success" >Generate Chart</button>
+                        <input type="button" class="btn btn-success" onclick="printDiv('printableArea')" value="Print Chart" />
+
+					</div>
+					
+					
+					
+					
+				</div>
+			</div><br>
+			
+			
+			
+			
+			
+			{% if messages %}
+			<ul class="messages">
+				{% for message in messages %}
+				<li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+				{% endfor %}
+			</ul>
+			{% endif %}
+		</form><br/>
+		
+		<div name=print id="printableArea" class="row">
+			<div class="col-md-12">
+				<div style="padding-left:120px;">
+					
+					<table border="0" >
+						<tr >
+							
+						<td>Name</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td>{{child.c_fname}} {{child.c_lname}}</td></tr>
+						<tr><td>Date of Birth<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td> </td><td>{{child.c_dob}}<td></tr>
+							<tr><td>Contact Number<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td> </td><td>{{child.c_mobile_num}}<td></tr>
+							</tr>
+							</table>
+						</div></br>
+						<div class="panel">
+							
+							<div class="panel-heading">
+								<div class="panel-title" style="padding-left:90px;">
+									
+									<center>  <h3><b>Vaccine chart<b></h3></center>
+									</div>
+									</div><br>
+									
+									
+								</div>
+								
+								<div class="panel-body p-20">
+									
+									<center> <table border =1 style="text-align:center" id="example" cellspacing="0" width="80%">   <center/>
+										<thead>
+											<tr>
+												
+												<th>Sr No.</th>
+												<th>Group</th>
+												<th>Vaccine Name</th>
+												<th>Vaccine Date</th>
+												
+												<!--     <th>Creation Date</th>  -->
+												
+											</tr>
+										</thead>                                                    
+										<tr >
+											{% for field in data %}
+											<tr>
+												<td><center>{{ field.0 }}<center/></td>
+													<td> {{ field.1 }}</td>
+													<td> {{ field.2 }}</td>
+													<td> {{ field.3}} </td>
+												</tr>
+												{% endfor %}
+											</tr>
+											<tbody>
+												
+											</table>
+											
+											
+											<!-- /.col-md-12 -->
+										</div>
+									</div>
+                                    </div>
+	
+<script>
+function printDiv(print) {
+     var printContents = document.getElementById(print).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}	
+	
+</script>
+									
+									
+									{% endblock body %}
+									
+																
