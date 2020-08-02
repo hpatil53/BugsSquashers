@@ -1,0 +1,67 @@
+<!DOCTYPE html> <html lang="en"> 
+{% load static %}
+<head> 
+	<meta charset="utf-8"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1,shrink-to-fit=no"> 
+	<title>Admin Login</title> <link
+rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link rel="stylesheet"
+href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> <script
+src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script
+src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'home.css'%}">
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+</head>
+
+<body>
+	
+<!--Carousel Wrapper-->
+   
+    <div class="login-form">
+    	<form action="{% url 'dashboard'%}" method="post">
+        {% csrf_token %}
+		<div class="avatar">
+			<i class='fas fa-user-md' style="font-size:38px; padding-left:18px; padding-top:10px;"></i>
+		</div>
+        <h2 class="text-center">Admin Login</h2>   
+        <div class="form-group">
+        	<input type="text" class="form-control" name="username" placeholder="Enter Username" required="required">
+        </div>
+		<div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Enter Password" required="required">
+        </div>     
+        <center><label class="text-danger">{{ msg }}</label></center>
+        <br/>
+           
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Sign in</button>
+        </div>
+		
+   		</form>
+   
+</div>
+  </div>
+  <!--/.Slides-->
+  <!--Controls-->
+  
+</div>
+<!--/.Carousel Wrapper-->
+
+
+
+
+
+</div>
+
+
+
+
+</body>
+
+</html>
