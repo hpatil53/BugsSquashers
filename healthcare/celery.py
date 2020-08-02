@@ -1,0 +1,84 @@
+from __future__ import absolute_import, unicode_literals
+import os
+#from broadcast.tasks import tasks
+from celery import Celery
+
+from celery.schedules import crontab
+
+
+# set the default Django settings module for the 'celery' program.
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'healthcare.settings')
+
+app = Celery('healthcare')
+
+# Using a string here means the worker doesn't have to serialize
+# the configuration object to child processes.
+# - namespace='CELERY' means all celery-related configuration keys
+#   should have a `CELERY_` prefix.
+app.config_from_object('django.conf:settings', namespace='CELERY')
+
+app.conf.beat_schedule = {
+    
+    'every-10-seconds' : {
+         'task' :'broadcast.tasks.child_vaccine_broadcast_sms',
+         'schedule' : 10,
+      #   'schedule' : crontab(hour=9, minute=00, day_of_week=7 )
+                    },
+
+    'every-monday-nutrition' : {
+         'task' :'broadcast.tasks.child_run_every_monday',
+         'schedule' : 20,
+          
+          #'schedule': crontab(hour=7, minute=30, day_of_week=1),
+                    },
+
+
+
+    'every-monday-nutrition' : {
+          'task' :'broadcast.tasks.women_run_every_monday',
+          'schedule' : 20,      
+
+    },              
+
+# #### every monday jaaa ra hai 
+
+#     'every-Monday-WomenNotification' : {
+#          'task' :'broadcast.tasks.lady_nutrition_broadcast_sms',
+#          'schedule': crontab(hour=7, minute=30, day_of_week=1),
+#                     },
+
+     'every-month-1st-date' : {
+         'task' :'broadcast.tasks.every_month_1st_date',
+         'schedule' : 35,         
+
+         #'schedule': crontab( 0, 0, day_of_month = '1' ),
+                    },
+
+
+     }
+
+
+
+     # 'every-15-seconds' : {
+     #      'task' :'broadcast.tasks.child_vaccine_broadcast_sms
+     #      'schedule' : 40, 
+     #              }
+
+# app.conf.beat_schedule = {
+#     # Executes every Monday morning at 7:30 a.m.
+#     'add-every-monday-morning': {
+#         'task': 'tasks.add',
+#         'schedule': crontab(hour=7, minute=30, day_of_week=1),
+#         'args': (16, 16),
+#     },
+# }
+
+
+
+# Load task modules from all registered Django app configs.
+app.autodiscover_tasks()
+
+
+@app.task(bind=True)
+def debug_task(self):
+    print('Request: {0!r}'.format(self.request))
