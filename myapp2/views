@@ -1,0 +1,217 @@
+from django.shortcuts import render, redirect
+from .models import HWRegister,Anganwadi_details
+from myapp.models import Pregnant_details,Child_details,Vaccine_details,Nutrition_master
+import random
+import string
+from django.contrib.sessions.models import Session
+from django.core.mail import send_mail
+from django.conf import settings
+
+# Create your views here.
+
+def admindashboard(request):
+    if request.session.has_key('is_logged'):
+        return render(request, 'admindashboard.html')
+    return render(request,'index1.html')
+###########################################################################
+
+def centeraddition(request):
+    if request.session.has_key('is_logged'):
+
+        if request.method == 'POST':
+            center_add = Anganwadi_details(aw_name=request.POST.get("aw_name"), aw_contact1=request.POST.get('aw_contact1'),
+                                aw_contact2=request.POST.get('aw_contact2'),
+                                aw_address=request.POST.get('aw_address'),
+                                aw_pincode=request.POST.get('aw_pincode'),
+                                aw_state=request.POST.get('aw_state'),
+                                aw_city=request.POST.get('aw_city'))
+            center_add.save()
+
+            return render(request, 'dashboard.html')
+        else:
+            return render(request, 'centeraddition.html')
+    return render(request,'index1.html')
+#############################################################################
+def h_registration(request):
+    if request.session.has_key('is_logged'):
+        if request.method == 'POST':
+            possible_characters = "abcdefghijklmnopqrstuvwxyz1234567890?/@$%&*-_+"
+            random_character_list = [random.choice(possible_characters) for i in range(10)]
+            password = "".join(random_character_list)
+            register = HWRegister(hwfname=request.POST.get("hwfname"), hwlname=request.POST.get('hwlname'),
+                                hwgender=request.POST.get('hwgender'),
+                                hwdob=request.POST.get('hwdob'), hwemailid=request.POST.get('hwemailid'),
+                                hwmobileno=request.POST.get('hwmobileno'), hwpassword=password,
+                                hwaddress=request.POST.get('hwaddress'),
+                                hwpincode=request.POST.get('hwpincode'), state=request.POST.get('state'),
+                                city=request.POST.get('city'))
+            register.save()
+            send_mail('HealthWorker Credentials',
+             'Your username is ' +str(register.hwemailid)+ ' and your password is ' + str(register.hwpassword),
+             'apnelog2020@gmail.com',
+             [str(register.hwemailid)])
+            return render(request, 'dashboard.html')
+        else:
+            return render(request, 'h_registration.html')
+    return render(request,'index1.html')
+##############################################################################
+def assign_healthworker(request):
+    if request.session.has_key('is_logged'):
+        return render(request, 'assign_healthworker.html')
+    return render(request,'index1.html')
+##############################################################################
+def h_update(request):
+    if request.session.has_key('is_logged'):
+        if request.method == 'POST':
+            hwstaff = HWRegister.objects.get(pk = request.POST.get('id'))
+            hwstaff.hwfname = request.POST.get('hwfname')
+            hwstaff.hwlname = request.POST.get('hwlname')
+            hwstaff.hwgender = request.POST.get('hwgender')
+            hwstaff.hwdob = request.POST.get('hwdob')
+            hwstaff.hwemailid = request.POST.get('hwemailid')
+            hwstaff.hwmobileno = request.POST.get('hwmobileno')
+            hwstaff.hwaddress = request.POST.get('hwaddress')
+            hwstaff.hwpincode = request.POST.get('hwpincode')
+            hwstaff.state = request.POST.get('state')
+            hwstaff.city = request.POST.get('city')
+
+            hwstaff.save()
+            staffs = HWRegister.objects.all()
+            context = {
+                "data": staffs
+            }
+            return render(request, 'h_update.html', context)
+        else:
+            staffs = HWRegister.objects.all()
+            context = {
+                "data": staffs
+            }
+            return render(request, 'h_update.html', context)
+    return render(request, 'index1.html')
+
+###########################################################################
+def dashboard(request): 
+    if request.method=='POST':
+        u=request.POST['username']
+        p=request.POST['password']
+        if u == 'admin' and p == 'admin123':
+            request.session['is_logged']=True
+
+            total_pregnant_women=Pregnant_details.objects.all().count()
+            total_child=Child_details.objects.all().count()
+            healthy_count = Child_details.objects.all().filter(category = 'healthy').count()
+            nutrition_count=Pregnant_details.objects.all().count()+Child_details.objects.all().count()
+            malnutrition_count = Child_details.objects.all().filter(category = 'malnurtition').count()
+            male_count = Child_details.objects.all().filter(c_gender = 'c_male').count()
+            female_count = Child_details.objects.all().filter(c_gender = 'c_female').count()
+
+            context={
+                'total_pregnant_women':total_pregnant_women ,
+                'total_child':total_child,
+                'healthy_count' : healthy_count,
+                'nutrition_count':nutrition_count,
+                'malnutrition_count' : malnutrition_count,
+                    'male_count': male_count,
+                'female_count':female_count
+            }
+            return render(request, 'dashboard.html',context)
+
+        else:
+            return render(request, 'adminlogin.html',{'msg': "Invalid Username or password"})
+    elif request.session.has_key('is_logged'):
+        total_pregnant_women=Pregnant_details.objects.all().count()
+        total_child=Child_details.objects.all().count()
+        healthy_count = Child_details.objects.all().filter(category = 'healthy').count()
+       
+        malnutrition_count = Child_details.objects.all().filter(category = 'malnurtition').count()
+        male_count = Child_details.objects.all().filter(c_gender = 'c_male').count()
+        female_count = Child_details.objects.all().filter(c_gender = 'c_female').count()
+        nutrition_count=Pregnant_details.objects.all().count()+Child_details.objects.all().count()
+        context={
+            'total_pregnant_women':total_pregnant_women ,
+            'total_child':total_child,
+            'healthy_count' : healthy_count,
+            
+            'malnutrition_count' : malnutrition_count,
+            'male_count': male_count,
+            'female_count':female_count,
+            'nutrition_count':nutrition_count
+        }
+        return render(request, 'dashboard.html',context)
+
+        
+    
+
+    else:
+        return render(request, 'adminlogin.html')
+
+
+
+############################################################################
+
+def center_info(request):
+    if request.session.has_key('is_logged'):
+        return render(request, 'center_info.html')
+    return render(request,'index1.html')
+#############################################################################
+
+def edit_healthworker(request, id):
+    if request.session.has_key('is_logged'):
+        iid = HWRegister.objects.get(pk = id)
+        return render(request, 'edit_healthworker.html', {"data" : iid})
+    return render(request,'index1.html')
+############################################################################
+
+def delete_healthworker(request, id):
+    if request.session.has_key('is_logged'):
+        iid = HWRegister.objects.get(pk = id)
+        iid.delete()
+        staffs = HWRegister.objects.all()
+        context = {
+            "data": staffs
+        }
+        return render(request, 'h_update.html', context)
+    return render(request,'index1.html')
+
+##############################################################################
+def logout1(request):
+     del request.session['is_logged']
+     return render(request, 'adminlogin.html')
+######################################################################
+
+def viewreport(request):
+    if request.method == 'POST':
+        strt_date = request.POST.get('s_date')
+        end_date = request.POST.get('e_date')
+        child = Child_details.objects.all()
+        pregnant = Pregnant_details.objects.all()
+
+        listchild = []
+        listpregnant = []
+        for field in child:
+            if strt_date <= str(field.c_dob) <= end_date:
+                listchild.append(field)
+        for field in pregnant:
+            if strt_date <= str(field.p_reg_date) <= end_date:
+                listpregnant.append(field)
+        return render(request, 'viewreport.html', {'listchild': listchild, 'listpregnant': listpregnant, 'childcount': len(listchild), 'pregnantcount': len(listpregnant)})
+    
+    return render(request,'viewreport.html')
+###############################################################
+def AdminNutritionDetails(request):
+    nutrition = Nutrition_master.objects.all()
+    context = {
+        "data": nutrition
+    }
+    return render(request, 'AdminNutritionDetails.html', context)
+####################################################################
+
+
+def AdminVaccineDetails(request):
+    vaccine = Vaccine_details.objects.all()
+    context = {
+        "data": vaccine
+    }
+    return render(request, 'AdminVaccineDetails.html', context)
+
+    return render(request, 'AdminVaccineDetails.html')
