@@ -1,0 +1,155 @@
+{% extends 'registrationbase.html' %}
+{% block title %} Update Details {% endblock title %}
+{% block body %}
+
+<body data-offset="50" data-spy="scroll" data-target=".navbar">
+<h2 align="center">Pregant Women Update Form </h2>
+
+<form action="{% url 'p_update'  %}" autocomplete="off" id='personForm' method="POST">
+    {% csrf_token %}
+  <input type="hidden" name="p_id" id="p_id" required value="{{ data.p_id}}" />
+
+    <div class="container">
+        <div class='resp_code frms' style="margin-left:10px;">
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_fname">First name:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_name" name="p_fname" value="{{data.p_fname}}" placeholder="Enter First name" type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_lname">Last name:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_lname" name="p_lname" value="{{data.p_lname}}" placeholder="Enter Last Name" type="text">
+                </div>
+            </div>
+
+            
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_dob">Date of Birth:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_dob" name="p_dob" value="{{data.p_dob}}" required type="date">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_email_id">Email Id:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_email_id" name="p_email_id" value="{{data.p_email_id}}" placeholder="Enter Email Id" required type="email">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_phone_number">Mobile Number:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_phone_number" name="p_phone_number" value="{{data.p_phone_number}}" placeholder="Enter Mobile Number" required type="tel">
+                </div>
+            </div>
+
+             <div class="row">
+                <div class="col-25">
+                    <label for="p_adhar_number">Addhar Number:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_adhar_number" name="p_adhar_number" value="{{data.p_adhar_number}}" placeholder="Enter Mobile Number" required type="tel">
+                </div>
+            </div>
+
+
+
+            
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_address">Address:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_address" name="p_address" value="{{data.p_address}}"  placeholder="Enter Address" required type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_pincode">Pin Code:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_pincode" maxlength="6" name="p_pincode" value="{{data.p_pincode}}" placeholder="Enter Pincode" required
+                           type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="state">State:</label><br>
+                    <label for="city">City:</label>
+                </div>
+                <div class="col-75">
+                    <div id="selection">
+                        <select , id="listBox" name="state" value="{{data.state}}" onchange='selct_district(this.value)'></select>
+                        <select , id='secondlist' name="city" value="{{data.city}}"></select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_how_many_months_pregnant">How many month's pregnant:</label>
+                </div>
+                <div class="col-75">
+                    <select name="p_how_many_months_pregnant" value="{{data.p_how_many_months_pregnant}}" id="p_how_many_months_pregnant" required>
+                      <option value="" disabled selected>Select Month of Pregnancy</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                      <option value="7">7</option>
+                      <option value="8">8</option>
+                      <option value="9">9</option>
+  
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-25">
+                    <label for="p_expected_delivery_date">Expected Delivery Date:</label>
+                </div>
+                <div class="col-75">
+                    <input id="p_expected_delivery_date" name="p_expected_delivery_date" value="{{data.p_expected_delivery_date}}" required type="date">
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-75">
+                    <div align="center" id="dumdiv" style=" font-size: 10px; color: #dadada; ">
+                        <a href="http://www.hscripts.com" id="dum"
+                           style="padding-right:0px; text-decoration:none;color: green;text-align:center;"></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-25">
+                    <input type="submit" value="Submit">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+</body>
+
+{% endblock body %}

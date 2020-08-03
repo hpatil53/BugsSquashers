@@ -1,0 +1,114 @@
+{% extends 'n_base.html' %}
+{% block title %} Nutrition Transaction {% endblock title %}
+
+{% block body %}
+
+
+<h1>Nutrition Transaction</h1>
+<div class="container">
+<form action="nutritiontrx" method="POST">
+{% csrf_token %}
+<div class="row">
+			<div class="col-25" style="color:black; font-size:20px;">
+				
+				
+				<center><label for="c_id" style="align:right">ID:</label>
+					
+				</div>
+				<div class="col-75">
+				<input type="text" id="patient_id" name="patient_id" placeholder="Enter ID" ></div>
+                <div class="col-25" style="color:black; font-size:20px;">
+				
+				
+				<center><label for="group_id" style="align:right">Category:</label>
+					
+				</div>
+				<div class="col-75">
+				<select  value="category" name="category" id="category" >
+				<option value="" disabled selected>Select Category</option>
+				<option value="PREGNANT">Pregnant</option>
+				<option value="HEALTHY">Child-Healthy</option>
+				<option value="MALNUTRITION">Child-Malnourished</option>
+				</select></div>
+				<div class="col-25" style="color:black; font-size:20px;">
+					
+					
+					
+						
+					</div>
+					
+					
+					<div class="col-75">
+						{% comment %}       
+						<input type="date" id="dob" name="dob" placeholder="Enter Child DOB"> {% endcomment %}
+						<button type="submit" class="btn btn-success" >submit</button>
+                        
+
+					</div>
+					
+					
+					
+					
+				</div>
+			</div><br>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</ul>
+{% endif %}
+</form>
+
+	<div class="panel-body p-20">
+									
+									{% comment %} <center> <table border =1 style="text-align:center" id="example" cellspacing="0" width="80%">   <center/>
+										<thead>
+											<tr>
+												
+												<th>Sr No</th>
+												<th>Child Id</th>
+												<th>Group Id</th>
+                                                <th>Vaccine Id</th>
+												<th>Vaccine Name</th>
+                                                <th>Date of Vaccine</th>
+                                                <th>Next Date of Vaccine</th>
+												
+												<!--     <th>Creation Date</th>  -->
+												
+											</tr>
+										</thead>                                                    
+										<tr >
+											{% for field in data %}
+											<tr>
+												<td><center>{{ field.0 }}<center/></td>
+													<td> {{ field.1 }}</td>
+													<td> {{ field.2 }}</td>
+                                                    <td> {{ field.3 }}</td>
+													<td> {{ field.4}} </td>
+                                                    <td> {{ field.5 }}</td>
+													<td> {{ field.6 }}</td>
+													
+												</tr>
+												{% endfor %}
+											</tr>
+											<tbody>
+												
+											</table>
+											
+											
+											<!-- /.col-md-12 -->
+										</div>
+ {% endcomment %}
+
+
+{% comment %} <input type="button" name="btnTest" value="Click me" onclick="clickAction()"/>
+
+
+<script>
+function clickAction()
+{
+    alert ("Button was clicked");
+    }
+</script> {% endcomment %}
+{% endblock body %}

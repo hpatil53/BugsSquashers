@@ -1,0 +1,69 @@
+{% extends 'v_base.html' %}
+{% block title %} Vaccine Transaction {% endblock title %}
+
+{% block body %}
+
+
+<h1>Vaccine Transaction</h1>
+<div class="container">
+<form action="/vaccinetrx" method="POST">
+{% csrf_token %}
+<div class="row">
+			<div class="col-25" style="color:black; font-size:20px;">
+				
+				
+				<center><label for="c_id" style="align:right">Child ID:</label>
+					
+				</div>
+				<div class="col-75">
+				<input type="text" id="c_id" name="c_id" placeholder="Enter Child ID" ></div>
+                <div class="col-25" style="color:black; font-size:20px;">
+				
+				
+				<center><label for="group_id" style="align:right">Group ID:</label>
+					
+				</div>
+				<div class="col-75">
+				<input type="text" id="group_id" name="group_id" placeholder="Enter Group ID" ></div>
+				<div class="col-25" style="color:black; font-size:20px;">
+					
+					
+					
+						
+					</div>
+					
+					
+					<div class="col-75">
+						{% comment %}       
+						<input type="date" id="dob" name="dob" placeholder="Enter Child DOB"> {% endcomment %}
+						<button type="submit" class="btn btn-success" >submit </button>
+                        
+
+					</div>
+					
+					
+					
+					
+				</div>
+			</div><br>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</ul>
+{% endif %}
+</form>
+
+	
+
+{% comment %} <input type="button" name="btnTest" value="Click me" onclick="clickAction()"/>
+
+
+<script>
+function clickAction()
+{
+    alert ("Button was clicked");
+    }
+</script> {% endcomment %}
+{% endblock body %}

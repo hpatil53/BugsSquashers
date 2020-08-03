@@ -1,0 +1,25 @@
+{% block body %}
+<h1>Vaccine Test</h1>
+<form action="/vaccinetrx" method="POST">
+{% csrf_token %}
+<input type=text name="c_id" value="1001">
+<input type=text name="group_id" value="4">
+<input type=submit>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </li>
+    {% endfor %}
+</ul>
+{% endif %}
+</form>
+
+<input type="button" name="btnTest" value="Click me" onclick="clickAction()"/>
+{% endblock body %}
+
+<script>
+function clickAction()
+{
+    alert ("Button was clicked");
+    }
+</script>

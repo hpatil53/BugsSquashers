@@ -1,0 +1,86 @@
+{% extends 'n_base.html' %}
+{% block title %} Nutrition Dashboard {% endblock title %}
+{% block body %}
+<div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            
+          </div>
+
+<div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><a href="p_details">Patient Registration</a></div>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><a href="n_upcoming"> Upcoming </a></div>
+                      <h2 style="float:right; color:blue;">{{upcoming_ncount}}</h2>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1"><a href="n_missed">missed </a></div>
+                      <h2 style="float:right; color:blue;">{{missed_ncount}}</h2>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          
+                        </div>
+                        <div class="col">
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                     
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"><a href="n_complete"> Complete </a></div>
+                      <h2 style="float:right; color:blue;">{{complete_ncount}}</h2>
+                    </div>
+                    <div class="col-auto">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+ {% endblock body %}

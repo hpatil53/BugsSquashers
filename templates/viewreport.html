@@ -1,0 +1,134 @@
+{% extends 'admindashboard.html' %}
+{% block title %}  View Report {% endblock title %}
+{% block body %}
+
+<div class="container">
+<h2> View/Generate Report</h2>
+<form action="viewreport" method="POST">
+{% csrf_token %}
+ <div class="row">
+                <div class="col-25">
+                    <label for="s_date">Start Date:</label>
+                </div>
+                <div class="col-75">
+                    <input id="s_date" name="s_date" required type="date">
+                </div>
+            </div>
+             <div class="row">
+                <div class="col-25">
+                    <label for="e_date"> End Date:</label>
+                </div>
+                <div class="col-75">
+                    <input id="e_date" name="e_date" required type="date">
+                </div>
+            </div><br>
+            <div class="row">
+            <div class="col-75">
+						
+						<button type="submit" class="btn btn-success" >Generate Report</button> 
+                        <input type="button" class="btn btn-success" onclick="printDiv('printableArea')" value="Print Report"/>
+                        
+                 </div>
+                 </form>
+					</div>
+        <label> Total Child Count : </label> <label> {{childcount}}</label
+        </br>
+        <label> Total Pregnant Women Count : </label> <label> {{pregnantcount}} </label>
+
+					
+</div>
+
+
+
+
+                         <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <div class="panel-title"><br><br>
+                                                   <center> <h5>View Pateint Info</h5></center>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                            <br>
+                                            <div class="panel-body p-20">
+
+                                                <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Child/Patient Id</th>
+                                                            <th>First Name</th>
+                                                            <th>Last Name</th>
+                                                            <th>Mobile Number</th>
+                                                            <th>Date of Birth</th>
+                                                       <!--     <th>Creation Date</th>  -->
+                                                            <th>Registration Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                   <tfoot>
+                                                      
+                                                       {% for field in listchild %}
+
+<tr>
+<td>{{ field.c_id }}</td>
+<td>{{ field.c_fname }}</td>
+<td>{{ field.c_lname }} </td>
+<td>{{field.c_mobile_num}}</td>
+<td>{{ field.c_dob }}</td>
+<td>{{field.c_dob}}
+</tr>
+
+{% endfor %}
+
+{% for field in listpregnant %}
+
+<tr>
+<td>{{ field.p_id }}</td>
+<td>{{ field.p_fname }}</td>
+<td>{{ field.p_lname }} </td>
+<td>{{field.p_phone_number}}</td>
+<td>{{ field.p_dob }}</td>
+<td>{{field.p_reg_date}}
+</tr>
+
+{% endfor %}
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+
+                                                </table>
+
+                                         
+                                                <!-- /.col-md-12 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col-md-6 -->
+
+                                                               
+                                                </div>
+                                               </div>
+                                        </div>
+                                        </div>
+                                </div>
+                                </div>
+                <!-- /.content-container -->
+<script>
+
+function printDiv(print) {
+     var printContents = document.getElementById(print).innerHTML;
+     var originalContents = document.body.innerHTML;
+
+     document.body.innerHTML = printContents;
+
+     window.print();
+
+     document.body.innerHTML = originalContents;
+}		
+</script>
+
+
+
+{% endblock body%}

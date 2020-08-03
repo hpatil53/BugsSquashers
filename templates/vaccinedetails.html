@@ -1,0 +1,124 @@
+{% extends 'v_base.html' %}
+{% block title %} Vaccine Details {% endblock title %}
+{% block body %}
+<form action=vaccinedetails>
+ <div class="main-wrapper">
+
+            <!-- ========== TOP NAVBAR ========== -->
+   
+
+                    <div class="main-page">
+                        <div class="container-fluid">
+                            <div class="row page-title-div">
+                                <div class="col-md-6">
+                                    <h2 class="title">Vaccine Details</h2>
+                                
+                                </div>
+                                
+                                <!-- /.col-md-6 text-right -->
+                            </div>
+                            <!-- /.row -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/v_dashboard"><i class="fa fa-home"></i>Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Vaccine details</li>
+                                </ol>
+                            </nav>
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.container-fluid -->
+
+                        <section class="section">
+                            <div class="container-fluid">
+
+                             
+
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <h5>View Vaccine Info</h5>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                       
+                                            <div class="panel-body p-20">
+
+                                                <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Vaccine Id</th>
+                                                            <th>Vaccine Name</th>
+                                                            <th>Vaccine Importance</th>
+                                                            
+                                                       <!--     <th>Creation Date</th>  -->
+                                                            <th>Maximum doses</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                    {% for field in data %}
+                                                        <tr>
+                                                          <td>{{field.v_id}}</td>
+                                                            <td>{{field.v_name}}</td>
+                                                            <td>{{field.v_description}}</td>
+                                                            <td>{{field.max_dose_number}}</td>
+                                                            
+                                                        </tr>
+                                                        {% endfor %}
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+
+                                                </table>
+
+                                         
+                                                <!-- /.col-md-12 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col-md-6 -->
+
+                                                               
+                                                </div>
+                                                <!-- /.col-md-12 -->
+                                            </div>
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+
+                                </div>
+                                <!-- /.row -->
+
+                            </div>
+                            <!-- /.container-fluid -->
+                        </section>
+                        <!-- /.section -->
+
+                    </div>
+                    <!-- /.main-page -->
+
+                    
+
+                </div>
+                <!-- /.content-container -->
+            </div>
+            <!-- /.content-wrapper -->
+
+        </div>
+         <script src="js/jquery/jquery-2.2.4.min.js"></script>
+        <script src="js/bootstrap/bootstrap.min.js"></script>
+        <script src="js/pace/pace.min.js"></script>
+        <script src="js/lobipanel/lobipanel.min.js"></script>
+        <script src="js/iscroll/iscroll.js"></script>
+
+        <!-- ========== PAGE JS FILES ========== -->
+        <script src="js/prism/prism.js"></script>
+        <script src="js/DataTables/datatables.min.js"></script>
+
+        <!-- ========== THEME JS ========== -->
+        
+{% endblock body %}

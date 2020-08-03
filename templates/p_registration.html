@@ -1,0 +1,227 @@
+{% extends 'registrationbase.html' %}
+{% block title %} registration {% endblock title %}
+{% block body %}
+
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<div class="col-xl-10 col-lg-7" style="padding-left:200px;">
+              <div class="card shadow mb-4" >
+<form action="{% url 'p_registration' %}" autocomplete="off" id='personForm' method="POST">
+    {% csrf_token %}
+ 
+<h2 align="center">Pregnant Women Registration Form </h2>
+
+
+<div class="container">
+
+<div class='resp_code frms'style="margin-left:10px;">
+  
+<div class="row">
+	<div class="col-25">
+  	<label for="p_fname">First name:</label>
+  	</div>
+  	<div class="col-75">
+    <input type="text" id="p_fname" name="p_fname" placeholder="Enter First name" required>
+    </div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+    <label for="p_lname">Last name:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="p_lname" name="p_lname"placeholder="Enter Last Name" required>
+ 	</div>
+</div>
+
+
+ <div class="row">
+	<div class="col-25">
+    <label for="p_dob">Date of Birth:</label>
+    </div>
+    <div class="col-75">
+  <input type="date" id="p_dob" name="p_dob"  required>
+  </div>
+</div> 
+
+<div class="row">
+	<div class="col-25">
+  <label for="p_email_id">Email Id:</label>
+     </div>
+     <div class="col-75">
+  <input type="email" id="p_email_id" name="p_email_id"placeholder="Enter Email Id">
+  </div>
+  </div>
+  
+<div class=row>
+	<div class="col-25">
+  <label for="p_phone_number">Mobile Number:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="p_phone_number" name="p_phone_number" pattern="[7-9]{1}[0-9]{9}" placeholder="Enter Mobile Number"required maxlength="10" required>
+  <button type="button" class="btn btn-warning" onclick="getotp()">Get OTP</button>
+  </div>
+  </div>
+  
+  <div class="row">
+	<div class="col-25">
+    <label for="p_otp">Enter OTP:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="p_otp" name="p_otp"placeholder="Enter OTP number" required>
+     <button type="button" class="btn btn-success" onclick="verifyOtp()">Verify OTP</button>
+ 	</div>
+   <center>
+<span class="label label-success" id="verification"></span>
+</center>
+</div>
+
+  <div class='row'>
+	<div class="col-25">
+  <label for="p_adhar_number">Aadhaar Number:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="p_adhar_number" name="p_adhar_number" placeholder="Enter Aadhaar Number"required maxlength="12" required>
+  </div>
+  </div>
+
+  <div class=row>
+  <div class="col-25">
+  <label for="p_address">Address:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="p_address" name="p_address" placeholder="Enter Address"required>
+  </div>
+  </div>
+
+  
+
+  <div class='row'>
+  <div class="col-25">
+  <label for="p_pincode">Pin Code:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="p_pincode" name="p_pincode" placeholder="Enter Pincode"required maxlength="6" required>
+  </div>
+  </div>
+
+
+  <div class="row">
+                <div class="col-25">
+                    <label for="state">State:</label><br>
+                    <label for="city">City:</label>
+                </div>
+                <div class="col-75">
+                    <div id="selection">
+                        <select , id="listBox" name="state" onchange='selct_district(this.value)'></select>
+                        <select , id='secondlist' name="city"></select>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+<div class="row">
+	
+ 	<div class="col-75">
+    <div id="dumdiv" align="center" style=" font-size: 10px; color: #dadada; ">
+        <a id="dum" style="padding-right:0px; text-decoration:none;color: green;text-align:center;" href="http://www.hscripts.com"></a>
+      </div>
+ 	</div>
+</div>
+
+<div class="row">
+    <div class="col-25">
+<label for="p_how_many_months_pregnant" >How many month's pregnant:</label>
+</div>
+<div class="col-75">
+<select name="p_how_many_months_pregnant" id="p_how_many_months_pregnant" required>
+  <option value="" disabled selected>Select Month of Pregnancy</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  
+</select>
+</div>
+</div>  
+
+<div class="row">
+	<div class="col-25">
+    <label for="p_expected_delivery_date">Expected date of Delivery:</label>
+    </div>
+    <div class="col-75">
+  <input type="date" id="p_expected_delivery_date" name="p_expected_delivery_date"  required >
+  </div>
+</div> 
+  
+
+<div class="row">
+<div class="col-25">
+  <input type="submit" value="Submit">
+  {% if messages %}
+            {% for message in messages %}
+                <h2 style="color:green;">{{message}}</h2> 
+            {% endfor %}
+          {% endif %}
+  <!-- onclick="alert('Patient Registration Successful' -->
+  </div>
+ <div class="col-75"> 
+
+  </div>
+  </div>
+  </div>
+
+
+                
+            <!-- Pie Chart -->
+            
+
+          <!-- Content Row -->
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+    </form>
+    <script>
+
+      var otpp;
+      function getotp(){
+        let phnooo = document.getElementById("p_phone_number").value;
+        
+        otpp = Math.floor(100000 + Math.random() * 900000);
+
+        fetch("http://127.0.0.1:8000/verifyotp",{
+          method:"POST",
+          body:JSON.stringify( {
+            otp:otpp,
+            phno: parseInt(phnooo)
+          })
+        })
+        .then( res => res.json())
+        .then(data => console.log(data))
+      }
+
+      function verifyOtp(){
+        let entOtp = parseInt( document.getElementById("p_otp").value )
+        if(entOtp == otpp){
+          console.log("OTP Verified")
+          document.getElementById('verification').innerHTML 
+                = 'OTP Verified Successfully';
+        }
+        else{
+          console.log("Not Verified")
+          document.getElementById('verification').innerHTML 
+                = 'Invalid OTP ... Try Again';
+        }
+      }
+    </script>
+      </body>
+ {% endblock body %}

@@ -1,0 +1,261 @@
+{% extends 'registrationbase.html' %}
+{% block title %} registration {% endblock title %}
+{% block body %}
+
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<div class="col-xl-10 col-lg-7" style="padding-left:200px;">
+              <div class="card shadow mb-4" >
+              <form action="{% url 'c_registration' %}" autocomplete="off" id='personForm' method="POST">
+    {% csrf_token %}
+<h2 align="center">Child Registration Form </h2>
+
+
+<div class="container">
+
+<div class='resp_code frms'style="margin-left:10px;">
+  
+<div class="row">
+	<div class="col-25">
+  	<label for="c_fname">Parent/Child First Name:</label>
+  	</div>
+  	<div class="col-75">
+    <input type="text" id="c_fname" name="c_fname" placeholder="Enter First name" required>
+    </div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_lname">Parent/Child Last name:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_lname" name="c_lname"placeholder="Enter Last Name" required>
+ 	</div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_mname">Mother name:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_mname" name="c_mname"placeholder="Enter Mother Name" required>
+ 	</div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+  
+  <label for="c_gender">Gender:</label>
+  </div>
+  <div class="col-75">
+  <input type="radio" id="c_male" name="c_gender" value="c_male" required>
+  <label for="c_male">Male</label>
+  <input type="radio" id="c_female" name="c_gender" value="c_female">
+  <label for="c_female">Female</label>
+  </div>
+ </div>
+ 
+<div class="row">
+	<div class="col-25">
+    <label for="c_dob">Date of Birth:</label>
+    </div>
+    <div class="col-75">
+  <input type="date" id="c_dob" name="c_dob"  required>
+  </div>
+</div> 
+
+<div class="row">
+  <div class="col-25">
+<label for="c_blood_group">Child Blood group:</label>
+</div>
+<div class="col-75">
+<select name="c_blood_group" id="c_blood_group" required>
+<option value="" disabled selected>Select Child Blood group</option>
+<option value="A+">A+</option>
+<option value="A-">A-</option>
+<option value="B+">B+</option>
+<option value="B-">B-</option>
+<option value="AB">AB+</option>
+<option value="AB">AB-</option>
+<option value="O+">O+</option>
+<option value="O-">O-</option>
+</select>
+</div>
+</div>   
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_height">Height:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_height" name="c_height"placeholder="Enter Height of Child(in cms) " required>
+ 	</div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_weight">Weight:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_weight" name="c_weight"placeholder="Enter Weight of Child(in kgs)" required>
+ 	</div>
+</div>
+
+<div class="row">
+  <div class="col-25">
+  <label for="category">Category:</label>
+  </div>
+  <div class="col-75">
+  <select name="category" id="category" required>
+    <option value="" disabled selected>Select Child Category</option>
+    <option value="malnurtition">Malnutrition</option>
+    <option value="healthy">Healthy</option>
+   
+  </select>
+  </div>
+  </div>  
+
+<div class="row">
+	<div class="col-25">
+  <label for="c_email_id">Email Id:</label>
+     </div>
+     <div class="col-75">
+  <input type="email" id="c_email_id" name="c_email_id"placeholder="Enter Email Id">
+  </div>
+  </div>
+  
+<div class=row>
+	<div class="col-25">
+  <label for="c_mobile_num">Mobile Number:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="c_mobile_num" name="c_mobile_num"  placeholder="Enter Mobile Number"required>
+  <button type="button" class="btn btn-warning" onclick="getotp()">Get OTP</button>
+  </div>
+  </div>
+  
+  <div class=row>
+	<div class="col-25">
+  <label for="c_otp">OTP:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="c_otp" name="c_otp"  placeholder="Enter OTP" required>
+  <button type="button" class="btn btn-success" onclick="verifyOtp()">Verify OTP</button>
+  </div>
+  
+  </div>
+
+
+
+
+
+  <div class=row>
+  <div class="col-25">
+  <label for="c_address">Address:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="c_address" name="c_address" placeholder="Enter Address"required>
+  </div>
+  </div>
+
+  <div class=row>
+  <div class="col-25">
+  <label for="c_pincode">Pin Code:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="c_pincode" name="c_pincode" placeholder="Enter Pincode"required maxlength="6" required>
+  </div>
+  </div>
+
+  <div class="row">
+                <div class="col-25">
+                    <label for="state">State:</label><br>
+                    <label for="city">City:</label>
+                </div>
+                <div class="col-75">
+                    <div id="selection">
+                        <select , id="listBox" name="state" onchange='selct_district(this.value)'></select>
+                        <select , id='secondlist' name="city"></select>
+                    </div>
+                </div>
+            </div>
+
+<div class="row">
+	
+ 	<div class="col-75">
+    <div id="dumdiv" align="center" style=" font-size: 10px; color: #dadada; ">
+        <a id="dum" style="padding-right:0px; text-decoration:none;color: green;text-align:center;" href="http://www.hscripts.com"></a>
+      </div>
+ 	</div>
+</div>
+
+  <div class='row'>
+	<div class="col-25">
+  <label for="c_adhar_number">Aadhaar Number:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="c_adhar_number" name="c_adhar_number" placeholder="Enter Aadhaar Number" maxlength="12" required>
+  </div>
+  </div>
+
+
+  
+<div class="row">
+<div class="col-25">
+  <input type="submit" value="Submit">
+  {% if messages %}
+            {% for message in messages %}
+                <h2 style="color:green;">{{message}}</h2> 
+            {% endfor %}
+          {% endif %}
+  <!-- onclick="alert('Patient Registration Successful' -->
+  </div>
+
+</form>
+<script>
+
+      var otpp;
+      function getotp(){
+        let phnooo = document.getElementById("c_mobile_num").value;
+        
+        otpp = Math.floor(100000 + Math.random() * 900000);
+
+        fetch("http://127.0.0.1:8000/verifyotp",{
+          method:"POST",
+          body:JSON.stringify( {
+            otp:otpp,
+            phno: parseInt(phnooo)
+          })
+        })
+        .then( res => res.json())
+        .then(data => console.log(data))
+      }
+
+      function verifyOtp(){
+        let entOtp = parseInt( document.getElementById("c_otp").value )
+        if(entOtp == otpp){
+          console.log("OTP Verified")
+          document.getElementById('verification').innerHTML 
+                = 'OTP Verified Successfully';
+        }
+        else{
+          console.log("Not Verified")
+          document.getElementById('verification').innerHTML 
+                = 'Invalid OTP ... Try Again';
+        }
+      }
+    </script>
+                
+            <!-- Pie Chart -->
+            
+
+          <!-- Content Row -->
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      
+      </body>
+ {% endblock body %}

@@ -1,0 +1,86 @@
+{% extends 'admindashboard.html' %}
+{% block title %} Assign Healthworker {% endblock title %}
+{% block body %}
+
+<div class="col-xl-10 col-lg-7" style="padding-left:200px;">
+              <div class="card shadow mb-4" >
+
+              <h2 align="center">Assign Healthworker to Centers </h2>
+
+<div class="container">
+  
+
+
+ <div class='resp_code frms'style="margin-left:10px;">
+
+ <div class="row">
+  <div class="col-25">
+<label for="hwfname">First Name:</label>
+</div>
+<div class="col-75">
+<select name="hwfname" id="hwfname" placeholder="Select Healthworker First Name">
+<option value="" disabled selected>Select</option>
+<option value="">harshal</option>
+<option value="">abhijeet</option>
+</select>
+ </div> 	
+</div>
+ <div class="row">
+  <div class="col-25">
+<label for="hwlname">Last Name:</label>
+</div>
+<div class="col-75">
+<select name="hwlname" id="hwlname"  placeholder="Select Healthworker Last Name">
+<option value="" disabled selected>Select</option>
+<option value="">patil</option>
+<option value="">patil</option>
+</select>
+  </div>	
+</div>
+
+
+<div class="row">
+	<div class="col-25">
+    <label for="state">State:</label><br>
+    <label for="city">City:</label>
+    </div>
+ 	<div class="col-75" ">
+   <div id="selection">
+        <select id="listBox" onchange='selct_district(this.value)'></select>
+        <select id='secondlist'></select>
+      </div>
+ 	</div>
+</div>
+
+
+<div class="row">
+	
+ 	<div class="col-75">
+    <div id="dumdiv" align="center" style=" font-size: 10px; color: #dadada; ">
+        <a id="dum" style="padding-right:0px; text-decoration:none;color: green;text-align:center;" href="http://www.hscripts.com"></a>
+      </div>
+ 	</div>
+</div>
+<div class="row">
+<div class="col-25">
+  <input type="submit" onclick="alert('Health Worker Registration Successful')" value="Submit">
+  </div>
+ <div class="col-75"> 
+
+  </div>
+  </div>
+</div>
+
+
+ 
+
+  
+ 
+
+
+</form>
+
+
+
+
+{% endblock body %}

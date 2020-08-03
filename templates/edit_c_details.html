@@ -1,0 +1,239 @@
+
+
+
+{% extends 'registrationbase.html' %}
+{% block title %} Update Details {% endblock title %}
+{% block body %}
+
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<div class="col-xl-10 col-lg-7" style="padding-left:200px;">
+              <div class="card shadow mb-4" >
+
+
+ 
+<h2 align="center">child update form  </h2>
+<form action="{% url 'c_update' %}" autocomplete="off"  method="POST">
+ {% csrf_token %}
+<input type="hidden" name="c_id" id="c_id" required value="{{ data.c_id}}" />
+   
+
+
+
+
+<div class="container">
+
+<div class='resp_code frms'style="margin-left:10px;">
+  
+<div class="row">
+	<div class="col-25">
+  	<label for="c_fname">First name:</label>
+  	</div>
+  	<div class="col-75">
+    <input type="text" id="c_fname" name="c_fname" value="{{data.c_fname}}" placeholder="Enter First name" required>
+    </div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_lname">Parent/Child Last name:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_lname" name="c_lname" value="{{data.c_lname}}" placeholder="Enter Last Name" required>
+ 	</div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_mname">Mother name:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_mname" name="c_mname" value="{{data.c_mname}}" placeholder="Enter Mother Name" required>
+ 	</div>
+</div>
+
+<div class="row">
+                <div class="col-25">
+
+                    <label for="gender">Gender:</label>
+                </div>
+                {% if data.c_gender == 'male'%}
+                <div class="col-75">
+                    <input id="c_gender" name="c_gender" type="radio" value="male" checked>
+                    <label for="male">Male</label>
+                    <input id="c_gender" name="c_gender" type="radio" value="female">
+                    <label for="female">Female</label>
+               
+                </div>
+
+                 {% elif data.c_gender == 'female'%}
+                <div class="col-75">
+                    <input id="c_gender" name="c_gender" type="radio" value="male" >
+                    <label for="male">Male</label>
+                    <input id="c_gender" name="c_gender" type="radio" value="female" checked>
+                    <label for="female">Female</label>
+               
+                </div>
+                 {% endif%}
+            </div>
+
+ 
+<div class="row">
+	<div class="col-25">
+    <label for="c_dob">Date of Birth:</label>
+    </div>
+    <div class="col-75">
+  <input type="date" id="c_dob" name="c_dob" value="{{data.c_dob}}" required>
+  </div>
+</div> 
+
+<div class="row">
+  <div class="col-25">
+<label for="c_blood_group">Child Blood group:</label>
+</div>
+<div class="col-75">
+<select name="c_blood_group" value="{{data.c_blood_group}}" id="c_blood_group" required>
+<option value="" disabled selected>Select Child Blood group</option>
+<option value="A+">A+</option>
+<option value="A-">A-</option>
+<option value="B+">B+</option>
+<option value="B-">B-</option>
+<option value="AB">AB+</option>
+<option value="AB">AB-</option>
+<option value="O+">O+</option>
+<option value="O-">O-</option>
+</select>
+</div>
+</div>   
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_height">Height:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_height" name="c_height" value="{{data.c_height}}" placeholder="Enter Height of Child(in cms) " required>
+ 	</div>
+</div>
+
+<div class="row">
+	<div class="col-25">
+    <label for="c_weight">Weight:</label>
+    </div>
+ 	<div class="col-75">
+    <input type="text" id="c_weight" name="c_weight" value="{{data.c_weight}}" placeholder="Enter Weight of Child(in kgs)" required>
+ 	</div>
+</div>
+
+<div class="row">
+  <div class="col-25">
+  <label for="category">Category:</label>
+  </div>
+  <div class="col-75">
+  <select name="category" value="{{data.category}}" id="category" required>
+    <option value="" disabled selected>Select Child Categoty</option>
+    <option value="malnurtition">Malnutrition</option>
+    <option value="healthy">Healthy</option>
+    <option value="overweight">Overweight</option>
+  </select>
+  </div>
+  </div>  
+
+<div class="row">
+	<div class="col-25">
+  <label for="c_email_id">Email Id:</label>
+     </div>
+     <div class="col-75">
+  <input type="email" id="c_email_id" name="c_email_id" value="{{data.c_email_id}}" placeholder="Enter Email Id">
+  </div>
+  </div>
+  
+<div class=row>
+	<div class="col-25">
+  <label for="c_mobile_num">Mobile Number:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="c_mobile_num" name="c_mobile_num" value="{{data.c_mobile_num}}" pattern="[7-9]{1}[0-9]{9}" placeholder="Enter Mobile Number"required>
+  </div>
+  </div>
+
+
+
+
+
+  <div class=row>
+  <div class="col-25">
+  <label for="c_address">Address:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="c_address" name="c_address" value="{{data.c_address}}" placeholder="Enter Address"required>
+  </div>
+  </div>
+
+  <div class=row>
+  <div class="col-25">
+  <label for="c_pincode">Pin Code:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="c_pincode" name="c_pincode" value="{{data.c_pincode}}" placeholder="Enter Pincode"required maxlength="6" required>
+  </div>
+  </div>
+
+  <div class="row">
+                <div class="col-25">
+                    <label for="state">State:</label><br>
+                    <label for="city">City:</label>
+                </div>
+                <div class="col-75">
+                    <div id="selection">
+                        <select , id="listBox" name="state" value="{{data.state}}"  onchange='selct_district(this.value)'></select>
+                        <select , id='secondlist' name="city" value="{{data.city}}"></select>
+                    </div>
+                </div>
+            </div>
+
+<div class="row">
+	
+ 	<div class="col-75">
+    <div id="dumdiv" align="center" style=" font-size: 10px; color: #dadada; ">
+        <a id="dum" style="padding-right:0px; text-decoration:none;color: green;text-align:center;" href="http://www.hscripts.com"></a>
+      </div>
+ 	</div>
+</div>
+
+  <div class='row'>
+	<div class="col-25">
+  <label for="c_adhar_number">Aadhaar Number:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="c_adhar_number" name="c_adhar_number" value="{{data.c_adhar_number}}" placeholder="Enter Aadhaar Number" maxlength="12" required>
+  </div>
+  </div>
+
+
+  
+<div class="row">
+<div class="col-25">
+  <input type="submit" value="Submit">
+  {% if messages %}
+            {% for message in messages %}
+                <h2 style="color:green;">{{message}}</h2> 
+            {% endfor %}
+          {% endif %}
+  <!-- onclick="alert('Patient Registration Successful' -->
+  </div>
+
+</form>
+                
+            <!-- Pie Chart -->
+            
+
+          <!-- Content Row -->
+          
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      
+      </body>
+ {% endblock body %} 

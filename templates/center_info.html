@@ -1,0 +1,143 @@
+{% extends 'admindashboard.html' %}
+{% block title %} Center Details {% endblock title %}
+{% block body %}
+ <div class="main-wrapper">
+
+            <!-- ========== TOP NAVBAR ========== -->
+   
+
+                    <div class="main-page">
+                        <div class="container-fluid">
+                            <div class="row page-title-div">
+                                <div class="col-md-6">
+                                    <h2 class="title">Center Details</h2>
+                                
+                                </div>
+                                
+                                <!-- /.col-md-6 text-right -->
+                            </div>
+                            <!-- /.row -->
+                            <!--<div class="row breadcrumb-div">
+                                <div class="col-md-6">
+                                    <ul class="breadcrumb">
+            							<li><a href="dashboard.php"><i class="fa fa-home"></i> Home</a></li>
+                                        <li>Registration</li>
+            							<li class="active">Update Details</li>
+            						</ul>
+                                </div>
+                             
+                            </div>-->
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.container-fluid -->
+
+                        <section class="section">
+                            <div class="container-fluid">
+
+                             
+
+                                <div class="row">
+                                    <div class="col-md-12">
+
+                                        <div class="panel">
+                                            <div class="panel-heading">
+                                                <div class="panel-title">
+                                                    <h5>View Center Info</h5>
+                                                </div>
+                                                <form class="form-inline">
+    <input class="form-control mr-sm-2" type="search" placeholder="Search Center" aria-label="Search">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  </form><br>
+                                            </div>
+
+                                        </div>
+                                       
+                                            <div class="panel-body p-20">
+
+                                                <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Center Name</th>
+                                                            <th>Center Address</th>
+                                                            <th>Assigned Health Worker</th>
+                                                            <th>Health Worker Mobile Number</th>
+                                                       <!--     <th>Creation Date</th>  -->
+                                                            
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                          <td>Mumbai Anganwadi Center</td>
+                                                            <td>Stn Road,Main Market,Mumbai 400001</td>
+                                                            <td>Harshal Patil</td>
+                                                            <td>8275634207</td>
+                                                        <!--    <th>Creation Date</th>  -->
+                                                             
+                                                        </tr>
+                                                    
+                                                    </tfoot>
+                                                    <tbody>
+
+                                                </table>
+
+                                         
+                                                <!-- /.col-md-12 -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- /.col-md-6 -->
+
+                                                               
+                                                </div>
+                                                <!-- /.col-md-12 -->
+                                            </div>
+                                        </div>
+                                        <!-- /.panel -->
+                                    </div>
+                                    <!-- /.col-md-6 -->
+
+                                </div>
+                                <!-- /.row -->
+
+                            </div>
+                            <!-- /.container-fluid -->
+                        </section>
+                        <!-- /.section -->
+
+                    </div>
+                    <!-- /.main-page -->
+
+                    
+
+                </div>
+                <!-- /.content-container -->
+            </div>
+            <!-- /.content-wrapper -->
+
+        </div>
+         <script src="js/jquery/jquery-2.2.4.min.js"></script>
+        <script src="js/bootstrap/bootstrap.min.js"></script>
+        <script src="js/pace/pace.min.js"></script>
+        <script src="js/lobipanel/lobipanel.min.js"></script>
+        <script src="js/iscroll/iscroll.js"></script>
+
+        <!-- ========== PAGE JS FILES ========== -->
+        <script src="js/prism/prism.js"></script>
+        <script src="js/DataTables/datatables.min.js"></script>
+
+        <!-- ========== THEME JS ========== -->
+        <script src="js/main.js"></script>
+        <script>
+            $(function($) {
+                $('#example').DataTable();
+
+                $('#example2').DataTable( {
+                    "scrollY":        "300px",
+                    "scrollCollapse": true,
+                    "paging":         false
+                } );
+
+                $('#example3').DataTable();
+            });
+        </script>
+{% endblock body %}

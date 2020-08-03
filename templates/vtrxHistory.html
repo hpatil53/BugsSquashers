@@ -1,0 +1,191 @@
+{% extends 'v_base.html' %}
+{% block title %} Vaccine Transaction History {% endblock title %}
+{% block body %}
+<form action="vtrxHistory" method="POST">
+	{% csrf_token %}
+	<div class="main-wrapper">
+		
+		<!-- ========== TOP NAVBAR ========== -->
+		
+		
+		<div class="main-page">
+			<div class="container-fluid">
+				<div class="row page-title-div">
+					<div class="col-md-6">
+						<h2 class="title">Vaccine Transaction History</h2>
+						
+					</div>
+					
+					<!-- /.col-md-6 text-right -->
+				</div>
+				<!-- /.row -->
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/v_dashboard"><i class="fa fa-home"></i>Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Vaccine Transaction History</li>
+					</ol>
+				</nav>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+			
+			<section class="section">
+				<div class="container-fluid">
+					
+					
+					
+					
+					<div class="row">
+						
+						<div class="col-md-12">
+							
+								
+								<div class="row">
+									<div class="col-25" style="color:black; font-size:20px;">
+										<center><label for="c_id" style="align:right">Child ID:</label>
+											
+										</div>
+										<div class="col-75">
+											<input type="text" id="c_id" name="c_id" placeholder="Enter Child ID"></br></br>
+											<input type=submit value="Show History">
+											{% comment %} <input type="button" class="btn-btn-success" onclick="printDiv('printableArea')" value="Print" /> {% endcomment %}
+										&nbsp;&nbsp;<button type="button" class="btn btn-success" onclick="printDiv('printableArea')">Print</button>
+										</div>
+										
+										
+										<div class="panel">
+											<div class="panel-heading">
+												<div class="panel-title">
+													{% comment %}    {% endcomment %}
+													<div>
+														
+													</div>
+													<br/><br/><br/>
+												</div>
+											</div>
+											
+										</div>
+										<div>
+											<div class="panel-body p-20" id="printableArea" width="100%"></br></br></br></br>
+												<table border="0" >
+													<tr>														
+														<td>Name</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td>{{child.c_fname}} {{child.c_lname}}</td></tr>
+														<tr><td>Date of Birth<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td> </td><td>{{child.c_dob}}<td></tr>
+														<tr><td>Contact Number<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td> </td><td>{{child.c_mobile_num}}<td></tr>													
+												</table>
+														</br>
+														<center>
+															
+															
+												
+												
+												<!-- /.col-md-12 -->
+												
+												<table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
+													<thead>
+														<tr>															
+															<th>Child ID</th>
+															<th>Group ID</th>
+															<th>Vaccine ID</th>
+															<th>Vaccine Name</th>
+															<th>Vaccine Date</th>
+															<th>Next Visit Date</th>															
+															<!--     <th>Creation Date</th>  -->															
+														</tr>
+													</thead>													
+														<tr>
+																	
+																	{% for field in data %}
+																	<tr>
+																		
+																		<td> {{ field.c_id}}</td>
+																		<td> {{ field.group_id }}</td>
+																		<td> {{ field.vm_id }} </td>
+																		<td> {{ field.v_name }} </td>
+																		<td> {{ field.date_of_vaccine }} </td>
+																		<td> {{ field.next_vaccine_date }} </td>
+																		
+																		<!--    <th>Creation Date</th>  -->																	
+																		
+																	</tr>
+																	{% endfor %}
+														</tr>													
+																	
+												</table>
+												<center/>
+										
+                                            </div>
+											<!-- EOF Printable Div-->
+										</div>
+								</div>
+							
+						</div>
+													<!-- /.col-md-6 -->
+													
+					</div>
+												<!-- /.col-md-12 -->
+				</div>
+		</div>
+										<!-- /.panel -->
+	</div>
+									<!-- /.col-md-6 -->
+									
+								</div>
+								<!-- /.row -->
+								
+							</div>
+							<!-- /.container-fluid -->
+						</section>
+						<!-- /.section -->
+						
+					</div>
+					<!-- /.main-page -->
+					
+					
+					
+				</div>
+				<!-- /.content-container -->
+			</div>
+			<!-- /.content-wrapper -->
+			
+		</div>
+		<script src="js/jquery/jquery-2.2.4.min.js"></script>
+		<script src="js/bootstrap/bootstrap.min.js"></script>
+		<script src="js/pace/pace.min.js"></script>
+		<script src="js/lobipanel/lobipanel.min.js"></script>
+		<script src="js/iscroll/iscroll.js"></script>
+		
+		<!-- ========== PAGE JS FILES ========== -->
+		<script src="js/prism/prism.js"></script>
+		<script src="js/DataTables/datatables.min.js"></script>
+		
+		<!-- ========== THEME JS ========== -->
+		<script src="js/main.js"></script>
+		<script>
+			$(function($) {
+				$('#example').DataTable();
+				
+				$('#example2').DataTable( {
+					"scrollY":        "300px",
+					"scrollCollapse": true,
+					"paging":         false
+				} );
+				
+				$('#example3').DataTable();
+			});
+		</script>
+		
+		<script>
+			function printDiv(print) {
+				var printContents = document.getElementById(print).innerHTML;
+				var originalContents = document.body.innerHTML;
+				
+				document.body.innerHTML = printContents;
+				
+				window.print();
+				
+				document.body.innerHTML = originalContents;
+			}	
+			
+		</script>
+	{% endblock body %}			

@@ -1,0 +1,105 @@
+{% extends 'admindashboard.html' %}
+{% block title %} Add Centers{% endblock title %}
+{% block body %}
+
+<div class="col-xl-10 col-lg-7" style="padding-left:200px;">
+      <div class="card shadow mb-4" >
+        <h2 align="center">Add Centers </h2>
+             
+  <form action="{% url 'centeraddition' %}" autocomplete="off" id='personForm' method="POST">
+    {% csrf_token %}
+        <div class="container">  
+
+<div class='resp_code frms'style="margin-left:10px;">
+  
+<div class="row">
+	<div class="col-25">
+  	<label for="aw_fname">Center Name:</label>
+  	</div>
+  	<div class="col-75">
+    <input type="text" id="aw_name" name="aw_name" placeholder="Enter Center name">
+    </div>
+</div>
+<div class="row">
+	<div class="col-25">
+  <label for="aw_contact1">Center Contact Number:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="aw_contact1" name="aw_contact1" placeholder="Enter Mobile Number"required>
+  </div>
+  </div>
+  <div class="row">
+	<div class="col-25">
+  <label for="aw_contact2">Center Contact Number2:</label>
+  	</div>
+    <div class="col-75">
+  <input type="tel" id="aw_contact2" name="aw_contact2" placeholder="Enter Mobile Number"required>
+  </div>
+  </div>
+  <div class=row>
+  <div class="col-25">
+  <label for="aw_address">Address:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="aw_address" name="aw_address" placeholder="Enter Address"required>
+  </div>
+  </div>
+  <div class="row">
+  <div class="col-25">
+  <label for="aw_pincode">Pincode:</label>
+    </div>
+    <div class="col-75">
+  <input type="text" id="aw_pincode" name="aw_pincode" placeholder="Enter Pincode"required>
+  </div>
+  </div>
+
+ <div class="row">
+                <div class="col-25">
+                    <label for="state">State:</label><br>
+                    <label for="city">City:</label>
+                </div>
+                <div class="col-75">
+                    <div id="selection">
+                        <select , id="listBox" name="aw_state" onchange='selct_district(this.value)'></select>
+                        <select , id='secondlist' name="aw_city"></select>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+
+<div class="row">
+
+                <div class="col-75">
+                    <div align="center" id="dumdiv" style=" font-size: 10px; color: #dadada; ">
+                        <a href="http://www.hscripts.com" id="dum"
+                           style="padding-right:0px; text-decoration:none;color: green;text-align:center;"></a>
+                    </div>
+                </div>
+            </div>
+
+ <div class="row">
+                <div class="col-25">
+                    <input type="submit" value="Submit">
+                </div>
+                </div>
+            
+
+
+ 
+
+  
+ 
+
+
+</form>
+</div>
+</div>
+
+
+
+
+{% endblock body %}

@@ -1,0 +1,138 @@
+{% extends 'admindashboard.html' %}
+{% block title %} Health Worker Registration {% endblock title %}
+{% block body %}
+
+<body data-offset="50" data-spy="scroll" data-target=".navbar">
+<h2 align="center">Health Worker Registration Form </h2>
+
+<form action="{% url 'h_registration' %}" autocomplete="off" id='personForm' method="POST">
+    {% csrf_token %}
+
+
+    <div class="container">
+        <div class='resp_code frms' style="margin-left:10px;">
+            <div class="row">
+                <div class="col-25">
+                    <label for="hwfname">First name:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwfname" name="hwfname" placeholder="Enter First name" type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="hwlname">Last name:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwlname" name="hwlname" placeholder="Enter Last Name" type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+
+                    <label for="hwgender">Gender:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwmale" name="hwgender" type="radio" value="hwmale">
+                    <label for="hwmale">Male</label>
+                    <input id="hwfemale" name="hwgender" type="radio" value="hwfemale">
+                    <label for="hwfemale">Female</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="hwdob">Date of Birth:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwdob" name="hwdob" required type="date">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="hwemailid">Email Id:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwemailid" name="hwemailid" placeholder="Enter Email Id" required type="email">
+                </div>
+            </div>
+
+            <div class=row>
+                <div class="col-25">
+                    <label for="hwmobileno">Mobile Number:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwmobileno" name="hwmobileno"  placeholder="Enter Mobile Number" required type="tel">
+                </div>
+            </div>
+
+
+            <!--  <div class="row">-->
+            <!--  <div class="col-25">-->
+            <!--  <label for="hwpassword">Password:</label>-->
+            <!--    </div>-->
+            <!--    <div class="col-75" style="height:20px;">-->
+            <!--  <input type="password" id="hwpassword" name="hwpassword" placeholder="Enter Password"required>-->
+            <!--  </div>-->
+            <!--  </div>-->
+
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="hwaddress">Address:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwaddress" name="hwaddress" placeholder="Enter Address" required type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="hwpincode">Pin Code:</label>
+                </div>
+                <div class="col-75">
+                    <input id="hwpincode" maxlength="6" name="hwpincode" placeholder="Enter Pincode" required
+                           type="text">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-25">
+                    <label for="state">State:</label><br>
+                    <label for="city">City:</label>
+                </div>
+                <div class="col-75">
+                    <div id="selection">
+                        <select , id="listBox" name="state" onchange='selct_district(this.value)'></select>
+                        <select , id='secondlist' name="city"></select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+
+                <div class="col-75">
+                    <div align="center" id="dumdiv" style=" font-size: 10px; color: #dadada; ">
+                        <a href="http://www.hscripts.com" id="dum"
+                           style="padding-right:0px; text-decoration:none;color: green;text-align:center;"></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-25">
+                    <input type="submit" value="Submit">
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+</body>
+
+{% endblock body %}

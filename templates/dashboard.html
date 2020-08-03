@@ -1,0 +1,318 @@
+{% extends 'admindashboard.html' %}
+{% block title %} HW Dashboard {% endblock title %}
+{% block body %}
+
+
+    <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            
+          </div>
+
+<div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1"><a href="p_details">Total Pregnant Women Registration</a></div>
+                      <h2 style="float:right; color:blue;">{{ total_pregnant_women }}</h2>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1"><a href="c_details"> Total New Born Details </a></div>
+                      <h2 style="float:right; color:blue;">{{ total_child }}</h2>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-danger shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-danger text-uppercase mb-1"><a href="#"> Total People for Nutrition </a></div>
+                      <h2 style="float:right; color:blue;">{{ nutrition_count }}</h2>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1"><a href="#"> Total People for Vaccine </a></div>
+                      <h2 style="float:right; color:blue;">{{ total_child }}</h2>
+                    </div>
+                    <div class="col-auto">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+             <div class="row">
+            <div class="col-lg-6">
+              <!-- PIE CHART 1 -->
+              <div class="card border-danger mb-3">
+                <div class="card-header text-white bg-danger mb-3">
+                  <h3 class="card-title">Pregnant Women and Child Chart</h3>
+
+                 
+                </div>
+                <div class="card-body">
+                  <canvas id="pieChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div> 
+            <div class="col-lg-6">
+              <!-- PIE CHART 2-->
+             <div class="card border-danger mb-3">
+                <div class="card-header text-white bg-danger mb-3">
+                  <h3 class="card-title">Nutrition Category</h3>
+
+                 
+                </div>
+                <div class="card-body">
+                  <canvas id="pieChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+            </div>
+            <div class="col-lg-12">
+            <!-- BAR CHART -->
+            <div class="card border-warning mb-3">
+              <div class="card-header text-white bg-warning mb-3">
+                <h3 class="card-title">Response Analysis</h3>
+
+                
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="barChart1" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+            
+          <div class="col-lg-12">
+            <!-- BAR CHART -->
+            <div class="card border-success mb-3">
+              <div class="card-header text-white bg-success mb-3">
+                <h3 class="card-title">Anganwadi Details</h3>
+
+                
+              </div>
+              <div class="card-body">
+                <div class="chart">
+                  <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+
+
+           <div class="col-lg-6">
+              <!-- DONUT CHART -->
+              <div class="card border-success mb-3">
+                <div class="card-header text-white bg-success mb-3">
+                  <h3 class="card-title">Male and Female Ratio in Child</h3>
+
+                 
+                </div>
+                <div class="card-body">
+                  <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+                </div>
+                <!-- /.card-body -->
+              </div>
+              <!-- /.card -->
+              
+            </div>
+
+          </div>
+           <script>
+    $(document).ready(function(){
+      var donutChartCanvas = $('#pieChart').get(0).getContext('2d')
+      var pieData        = {
+        labels: [
+            'Pregnant Women', 
+            'Child',
+        ],
+        datasets: [
+          {
+            data: [{{ total_pregnant_women }}, {{ total_child }}],
+            backgroundColor : ['#f56954', '#00a65a'],
+          }
+        ]
+      }
+
+      //-------------
+      //- PIE CHART -
+      //-------------
+      // Get context with jQuery - using jQuery's .get() method.
+      var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+      var pieData        = pieData;
+      var pieOptions     = {
+        maintainAspectRatio : false,
+        responsive : true,
+      }
+      //Create pie or douhnut chart
+      // You can switch between pie and douhnut using the method below.
+      var pieChart = new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions      
+      })
+       var donutChartCanvas = $('#pieChart').get(0).getContext('2d')
+      var pieData        = {
+        labels: [
+            'healthy', 
+           
+            'malnutrition'
+        ],
+        datasets: [
+          {
+            data: [{{ healthy_count }},{{malnutrition_count}}],
+            backgroundColor : ['#f56954','#1a1aff'],
+          }
+        ]
+      }
+
+      //-------------
+      //- PIE CHART -
+      //-------------
+      // Get context with jQuery - using jQuery's .get() method.
+      var pieChartCanvas = $('#pieChart1').get(0).getContext('2d')
+      var pieData        = pieData;
+      var pieOptions     = {
+        maintainAspectRatio : false,
+        responsive : true,
+      }
+      //Create pie or douhnut chart
+      // You can switch between pie and douhnut using the method below.
+      var pieChart = new Chart(pieChartCanvas, {
+        type: 'pie',
+        data: pieData,
+        options: pieOptions      
+      })
+
+         var ctx = document.getElementById('barChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: ['Assam', 'Bihar', 'Haryana', 'Maharshtra', 'Goa', 'Tripur', 'Delhi','Kerala','Sikkim','Jharkhand','Manipur','Uttarakhand','Uttar Pradesh'],
+        datasets: [{
+            label: 'Total Registration',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+           
+             barPercentage: 0.5,
+             barThickness: 2,
+               maxBarThickness: 5,
+           minBarLength: 2,
+            data: [3, 10, 5, 2, 20, 30, 45,25,15,10,20,16,14]
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});   
+
+ var ctx = document.getElementById('barChart1').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: ['Navi Mumbai', 'Thane', 'Nashik', 'Pune', 'Kalyan', 'Ratnagiri', 'Mumbai','Satara','Madgaon','kopargoan'],
+        datasets: [{
+            label: ['Poor response','         Average response','         Good Response'],
+        
+            backgroundColor: ["#FAD02E", "#6ab04c", "#FF3031", "#6ab04c", "#6ab04c", "#FF3031","#6ab04c", "#FAD02E", "#FF3031","#FF3031"],
+            borderColor:  ["#FAD02E", "#6ab04c", "#FF3031", "#6ab04c", "#6ab04c", "#FF3031","#6ab04c", "#FAD02E", "#FF3031","#FF3031"],
+           
+            barPercentage: 0.5,
+            barThickness: 2,
+            maxBarThickness: 5,
+            minBarLength: 5,
+            data: [40, 60, 20, 50, 60, 30, 50,40,10,30],
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});   
+
+
+       //donut Chart
+      var gender_list = ['Male','Female']
+      var gender_count_list = [{{ male_count  }},{{female_count}}]
+      var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+      var donutData        = {
+        labels: gender_list,
+        datasets: [
+          {
+            data: gender_count_list,
+            backgroundColor : ['#4C4B4B', '#10A881'],
+          }
+        ]
+      }
+      var donutOptions     = {
+        maintainAspectRatio : false,
+        responsive : true,
+      }
+      //Create pie or douhnut chart
+      // You can switch between pie and douhnut using the method below.
+      var donutChart = new Chart(donutChartCanvas, {
+        type: 'doughnut',
+        data: donutData,
+        options: donutOptions      
+      })
+
+    
+
+
+
+    })
+
+  
+  </script> 
+
+
+{% endblock body %}
+
+

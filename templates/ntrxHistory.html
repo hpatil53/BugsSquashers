@@ -1,0 +1,204 @@
+{% extends 'n_base.html' %}
+{% block title %} Nutrition Transaction History {% endblock title %}
+{% block body %}
+<form action="ntrxHistory" method="POST">
+	{% csrf_token %}
+	<div class="main-wrapper">
+		
+		<!-- ========== TOP NAVBAR ========== -->
+		
+		
+		<div class="main-page">
+			<div class="container-fluid">
+				<div class="row page-title-div">
+					<div class="col-md-6">
+						<h2 class="title">Nutrition Transaction History</h2>
+						
+					</div>
+					
+					<!-- /.col-md-6 text-right -->
+				</div>
+				<!-- /.row -->
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="/v_dashboard"><i class="fa fa-home"></i>Home</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Nutrition Transaction History</li>
+					</ol>
+				</nav>
+				<!-- /.row -->
+			</div>
+			<!-- /.container-fluid -->
+			
+			<section class="section">
+				<div class="container-fluid">
+					
+					
+					
+					<div class="row">
+						<div class="col-md-12">
+							
+								<div class="panel-heading">
+							<div class="panel">
+									<div class="panel-title">
+										<h5>View Transaction History</h5>
+									</div>
+								</div>
+								
+							</div>
+							<div class="row">
+							<div class="col-25" style="color:black; font-size:20px;">
+								<center><label for="patient_id" style="align:right">ID:</label>
+									
+								</div>
+								<div class="col-75">
+									<input type="text" id="patient_id" name="patient_id" placeholder="Enter Child ID"></br></br>
+									
+									<label for="category">Category</label>
+									
+									
+									<select  value="category" name="category" id="category" >
+										<option value="" disabled selected>Select Category</option>
+										<option value="pregnant" selected>Pregnant</option>
+										<option value="healthy">Child-Healthy</option>
+										<option value="malnutrition">Child-Malnourished</option>
+									</select>  
+									</div>
+									</div>
+									<button type="button" class="btn btn-success btn-lg" onclick="printDiv('printableArea')">Print</button>
+									<input type=submit name="Get History" >
+									
+											<div class="panel-body p-20" id="printableArea" width="100%"></br></br></br></br>
+												<table border="0" >
+													<tr>														
+														<td>Name</td><td>&nbsp;&nbsp;:&nbsp;&nbsp;</td><td>{{details.c_fname}} {{details.c_lname}} {{details.p_fname}} {{details.p_lname}} </td></tr>
+														<tr><td>Date of Birth<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td> </td><td>{{details.c_dob}}{{details.p_dob}}<td></tr>
+														<tr><td>Contact Number<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td> </td><td>{{details.c_mobile_num}}{{details.p_phone_number}}<td></tr>													
+												</table>
+														</br>
+														<center>
+									
+								
+										
+										<table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%"  style=" text-align: center;
+										vertical-align: middle">
+											<thead>
+												<tr>
+													
+													{% comment %} <th>SR No.</th> {% endcomment %}
+													<th>ID</th>
+													<th>Number of days Nutrition given for</th>
+													<th>Nutrition Date</th>
+													<th>Category</th>
+													
+													<!--     <th>Creation Date</th>  -->
+													
+												</tr>
+											</thead>
+											<tfoot>
+												<tr>
+													{% for field in data %}
+													<tr>
+														{% comment %} <td>{{ field.n_trx_id }}</td> {% endcomment %}
+														<td> {{ field.patient_id  }}</td>
+														<td> {{ field.days_stock  }}</td>
+														<td> {{ field.date_of_action }} </td>
+														<td> {{ field.category}} </td>
+														
+														
+														<!--    <th>Creation Date</th>  -->
+														
+														
+													</tr>
+													{% endfor %}
+												</tr>
+												<tbody>
+													
+												</table>
+												
+												
+												<!-- /.col-md-12 -->
+											</div>
+										</div>
+									</div>
+									<!-- /.col-md-6 -->
+									
+									
+							</div>
+							<!-- /.col-md-12 -->
+						</div>
+					</div>
+					<!-- /.panel -->
+				</div>
+				<!-- /.col-md-6 -->
+				
+			</div>
+			<!-- /.row -->
+			
+		</div>
+		<!-- /.container-fluid -->
+	</section>
+	<!-- /.section -->
+	
+</div>
+<!-- /.main-page -->
+
+
+
+</div>
+<!-- /.content-container -->
+</div>
+<!-- /.content-wrapper -->
+
+</div>
+<script src="js/jquery/jquery-2.2.4.min.js"></script>
+<script src="js/bootstrap/bootstrap.min.js"></script>
+<script src="js/pace/pace.min.js"></script>
+<script src="js/lobipanel/lobipanel.min.js"></script>
+<script src="js/iscroll/iscroll.js"></script>
+
+<!-- ========== PAGE JS FILES ========== -->
+<script src="js/prism/prism.js"></script>
+<script src="js/DataTables/datatables.min.js"></script>
+
+<!-- ========== THEME JS ========== -->
+<script src="js/main.js"></script>
+<script>
+	$(function($) {
+		$('#example').DataTable();
+		
+		$('#example2').DataTable( {
+			"scrollY":        "300px",
+			"scrollCollapse": true,
+			"paging":         false
+		} );
+		
+		$('#example3').DataTable();
+	});
+</script>
+<script>
+			function printDiv(print) {
+				var printContents = document.getElementById(print).innerHTML;
+				var originalContents = document.body.innerHTML;
+				
+				document.body.innerHTML = printContents;
+				
+				window.print();
+				
+				document.body.innerHTML = originalContents;
+			}	
+			
+		</script>
+		<script>
+			function printDiv(print) {
+				var printContents = document.getElementById(print).innerHTML;
+				var originalContents = document.body.innerHTML;
+				
+				document.body.innerHTML = printContents;
+				
+				window.print();
+				
+				document.body.innerHTML = originalContents;
+			}	
+			
+		</script>
+{% endblock body %}
