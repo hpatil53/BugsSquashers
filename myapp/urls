@@ -1,0 +1,97 @@
+from django.contrib import admin
+from django.urls import path
+from myapp import views
+
+urlpatterns = [
+     
+    path("", views.index1, name='index1'), 
+
+    path("hwlogin", views.hwlogin , name='hwlogin'),
+    
+    path("adminlogin", views.adminlogin , name='adminlogin'),
+    
+    path("ngo", views.ngo , name='ngo'),
+    
+    path("registrationbase",views.registrationbase,name='registrationbase'),
+    
+    path("registration",views.registration,name='registration'),
+    
+    
+
+    path("v_base", views.v_base , name='v_base'),
+    
+    path("v_dashboard", views.v_dashboard , name='v_dashboard'),
+    
+    path("p_registration", views.p_registration , name='p_registration'),
+     
+    path("c_registration", views.c_registration , name='c_registration'),
+     
+    path("p_update", views.p_update , name='p_update'),
+    
+    path("p_details", views.p_details , name='p_details'),
+
+    path("c_details", views.c_details , name='c_details'),
+    
+    path("checkin_vaccine", views.checkin_vaccine , name='checkin_vaccine'),
+    
+    path("chartTest", views.chartTest , name='chartTest'),
+    
+    path("v_upcoming", views.v_upcoming , name='v_upcoming'),
+    
+    path("v_missed", views.v_missed , name='v_missed'),
+    
+    path("v_complete", views.v_complete , name='v_complete'),
+
+    path("n_base", views.n_base , name='n_base'),
+    
+    path("n_dashboard", views.n_dashboard , name='n_dashboard'),
+    
+    path("checkin_nutrition", views.checkin_nutrition , name='checkin_nutrition'),
+    
+    path("n_upcoming", views.n_upcoming , name='n_upcoming'),
+    
+    path("n_missed", views.n_missed , name='n_missed'),
+    
+    path("n_complete", views.n_complete , name='n_complete'),
+    
+    path("c_update",views.c_update,name='c_update'),
+     
+    path("vaccinedetails",views.vaccinedetails,name='vaccinedetails'),
+    
+    path("nutritionDetails",views.nutritionDetails,name='nutritionDetails'),
+    
+    path("childnutrition",views.childnutrition,name='childnutrition'),
+    
+    path("womennutrition",views.womennutrition,name='womennutrition'),
+    
+    path("p_details",views.p_details,name='p_details'),
+    
+    path("edit_p_details/<int:p_id>",views.edit_p_details,name='edit_p_details'),
+    
+    path("delete_p_details/<int:p_id>",views.delete_p_details,name='delete_p_details'),
+    
+    path("edit_c_details/<int:c_id>",views.edit_c_details,name='edit_c_details'),
+    
+    path("delete_c_details/<int:c_id>",views.delete_c_details,name='delete_c_details'),
+
+    path("verifyotp",views.verifyotp,name='verifyotp'),
+
+    path("vaccinetrx",views.vaccinetrx,name='vaccinetrx'),
+    
+     #path("nutritiontest",views.nutritiontest,name='nutritiontest'),
+    
+    path("nutritiontrx",views.nutritiontrx,name='nutritiontrx'),
+   
+    
+    path("vaccinetransaction",views.vaccinetransaction,name='vaccinetransaction'),
+
+    path("nutritiontrx",views.nutritiontrx,name='nutritiontrx'),
+
+    path("donate",views.donate,name='donate'),
+
+    path("vtrxHistory",views.vtrxHistory,name='vtrxHistory'),
+
+    path("ntrxHistory",views.ntrxHistory,name='ntrxHistory')
+
+   
+]
