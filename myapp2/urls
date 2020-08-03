@@ -1,0 +1,32 @@
+from django.contrib import admin
+from django.urls import path
+from myapp2 import views
+
+urlpatterns = [
+        
+        path("admindashboard", views.admindashboard , name='admindashboard'),
+       
+        path("h_registration", views.h_registration , name='h_registration'),
+       
+        path("assign_healthworker", views.assign_healthworker , name='assign_healthworker'),
+       
+        path("h_update", views.h_update , name='h_update'),
+       
+        path("dashboard",views.dashboard,name='dashboard'),
+       
+        path("center_info",views.center_info,name='center_info'),
+       
+        path("logout1",views.logout1,name='logout1'),
+       
+        path("centeraddition",views.centeraddition,name='centeraddition'),
+       
+        path("edit_healthworker/<int:id>",views.edit_healthworker,name='edit_healthworker'),
+       
+        path("<int:id>",views.delete_healthworker,name='delete_healthworker'),
+
+        path("viewreport",views.viewreport,name='viewreport'),
+
+         path("AdminVaccineDetails",views.AdminVaccineDetails,name='AdminVaccineDetails'),
+
+        path("AdminNutritionDetails",views.AdminNutritionDetails,name='AdminNutritionDetails')
+]
