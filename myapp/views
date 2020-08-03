@@ -1,0 +1,598 @@
+from django.shortcuts import render, redirect
+from .models import Pregnant_details,Child_details,NGO_details,Vaccine_details,Vaccine_master,Vaccine_trx, Nutrition_master, Nutrition_trx,Upcoming_vaccine,Missed_vaccine , Completed_vaccine,Upcoming_nutrition,Missed_nutrition,Completed_nutrition
+from django.contrib import messages
+from django.db import connection
+import mysql.connector
+from myapp2.models import HWRegister
+import random
+import string
+from django.contrib import auth
+from django.contrib.auth import authenticate,login
+from django.contrib.sessions.models import Session
+from rest_framework.decorators import api_view
+import json
+from django.http.response import JsonResponse
+from twilio.rest import Client
+import twilio
+import twilio.rest
+from django.http import HttpResponse 
+
+# Create your views here.
+@api_view(['POST'])
+def verifyotp(request):
+    print("API WORKING")
+    jsondata = json.loads(request.body)
+    otp = jsondata['otp']
+    userPhNo = jsondata['phno']
+    print(otp)
+    account_sid = 'AC0f63add1f07abcc3391022e9e6b0a770'
+    auth_token = '71617382f5ac395c9e963e94785c4389'
+    client = Client(account_sid, auth_token)
+
+    message = client.messages.create(
+        body="Your OTP is "+str(otp),
+        from_='+12058803829',
+        to='+91' + str(userPhNo)
+    )
+
+    #send otp to userphno
+
+    return JsonResponse({'status':200}, safe=False)
+
+
+
+
+def index1(request):
+    if request.session.has_key('is_logged') or request.session.has_key('is_hwlogged'):
+        if request.session.has_key('is_hwlogged'):
+            del request.session['is_hwlogged']
+        else:
+            del request.session['is_logged']
+        return render(request, 'index1.html')
+    return render(request, 'index1.html')
+###############################################################
+def hwlogin(request):
+    return render(request,'hwlogin.html')
+##############################################################
+def ngo(request):
+   
+    if request.method == 'POST':
+        ngo_register = NGO_details(ngo_name=request.POST.get("ngo_name"),
+                             
+                              ngo_email_id=request.POST.get('ngo_email_id'), ngo_mobile_num=request.POST.get('ngo_mobile_num'),
+                             
+                              ngo_address=request.POST.get('ngo_address'),
+                              ngo_pincode=request.POST.get('ngo_pincode'), state=request.POST.get('state'),
+                              city=request.POST.get('city'),ngo_how_many_children=request.POST.get('ngo_how_many_children'),ngo_file=request.POST.get('ngo_file'))
+        ngo_register.save()
+        return render(request, 'ngo.html')
+    else:
+        return render(request, 'ngo.html')
+   
+###############################################################
+
+def adminlogin(request):
+
+    if request.method=='POST':
+        u=request.POST['username']
+        p=request.POST['password']
+        if u == 'admin' and p == 'admin123':
+            request.session['is_logged']=True
+        
+            return render(request, 'dashboard.html')
+        else:
+            return render(request, 'adminlogin.html',{'msg': "Invalid Username or password"})
+    else:
+        return render(request, 'adminlogin.html')
+#################################################################
+def registrationbase(request):
+    if request.session.has_key('is_hwlogged'):
+        return render(request, 'registrationbase.html')
+    return render(request,'hwlogin.html')
+
+    
+    
+
+###################################################################
+def registration(request):
+    
+    if request.method=="POST":
+        email = request.POST.get('hwemailid')
+        password = request.POST.get('hwpassword')
+        user = HWRegister.objects.get(hwemailid = email)
+        
+        if email == user.hwemailid and password == user.hwpassword :
+            request.session['is_hwlogged']=True
+            total_pregnant_women=Pregnant_details.objects.all().count()
+            total_child=Child_details.objects.all().count()
+            context={
+                'total_pregnant_women':total_pregnant_women ,
+                'total_child':total_child,
+                
+            }
+            return render(request,'registration.html',context)
+        else:
+            context={'msg':'Inavlid username or password'}
+            return render(request,'hwlogin.html',context)
+    if request.session.has_key('is_hwlogged'):
+        total_pregnant_women=Pregnant_details.objects.all().count()
+        total_child=Child_details.objects.all().count()
+        context={
+                'total_pregnant_women':total_pregnant_women,
+                'total_child':total_child,
+        }
+        return render(request,'registration.html',context)  
+
+    return render(request,'hwlogin.html')   
+        
+
+
+
+###################################################################
+def v_base(request):
+
+    return render(request, 'v_base.html')
+####################################################################
+def v_dashboard(request):
+    if request.session.has_key('is_hwlogged'):
+        return render(request, 'v_dashboard.html')
+    return render(request,'index1.html')
+####################################################################
+def p_registration(request):
+    if request.session.has_key('is_hwlogged'):
+        if request.method == 'POST':
+            p_register = Pregnant_details(p_fname=request.POST.get("p_fname"), p_lname=request.POST.get('p_lname'),
+                                p_dob=request.POST.get('p_dob'),
+                                p_email_id=request.POST.get('p_email_id'), p_phone_number=request.POST.get('p_phone_number'),
+                                p_adhar_number=request.POST.get('p_adhar_number'), 
+                                p_address=request.POST.get('p_address'),
+                                p_pincode=request.POST.get('p_pincode'), state=request.POST.get('state'),
+                                city=request.POST.get('city'),p_how_many_months_pregnant=request.POST.get('p_how_many_months_pregnant'),p_expected_delivery_date=request.POST.get('p_expected_delivery_date'))
+            p_register.save()
+            return render(request, 'p_registration.html')
+        else:
+            return render(request, 'p_registration.html')
+    return render(request,'index1.html')
+######################################################################
+def c_registration(request):
+    if request.session.has_key('is_hwlogged'):
+        if request.method == 'POST':
+            c_register = Child_details(c_fname=request.POST.get("c_fname"), c_lname=request.POST.get('c_lname'),
+                                c_mname=request.POST.get('c_mname'),
+                                c_gender=request.POST.get('c_gender'), c_dob=request.POST.get('c_dob'),
+                                c_blood_group=request.POST.get('c_blood_group'), 
+                                c_height=request.POST.get('c_height'),
+                                c_weight=request.POST.get('c_weight'),category=request.POST.get('category'),
+                                c_email_id=request.POST.get('c_email_id'),c_mobile_num=request.POST.get('c_mobile_num'),
+                                c_address=request.POST.get('c_address'),c_pincode=request.POST.get('c_pincode'), 
+                                state=request.POST.get('state'),
+                                city=request.POST.get('city'),c_adhar_number=request.POST.get('c_adhar_number'))
+            c_register.save()
+            return render(request, 'c_registration.html')
+        else:
+            return render(request, 'c_registration.html')
+    return render(request,'index1.html')  
+##########################################################################
+def p_update(request):
+    if request.session.has_key('is_hwlogged'):
+        if request.method == 'POST':
+            pstaff = Pregnant_details.objects.get(pk = request.POST.get('p_id'))
+            pstaff.p_fname = request.POST.get('p_fname')
+            pstaff.p_lname = request.POST.get('p_lname')
+            pstaff.p_dob = request.POST.get('p_dob')
+            pstaff.p_email_id = request.POST.get('p_email_id')
+            pstaff.p_phone_number = request.POST.get('p_phone_number')
+            pstaff.p_adhar_number = request.POST.get('p_adhar_number')
+            pstaff.p_address = request.POST.get('p_address')
+            pstaff.p_pincode = request.POST.get('p_pincode')
+            pstaff.state = request.POST.get('state')
+            pstaff.city = request.POST.get('city')
+            pstaff.p_how_many_months_pregnant = request.POST.get('p_how_many_months_pregnant')
+            pstaff.p_expected_delivery_date = request.POST.get('p_expected_delivery_date')
+
+            pstaff.save()
+            pregnant = Pregnant_details.objects.all()
+            context = {
+                "data": pregnant
+            }
+            return render(request, 'p_update.html', context)
+        else:
+            pregnant = Pregnant_details.objects.all()
+            context = {
+                "data": pregnant
+            }
+            return render(request, 'p_update.html', context)
+    return render(request,'index1.html')
+####################################################################
+
+
+def checkin_vaccine(request):
+    return render(request, 'checkin_vaccine.html')
+#####################################################################
+
+def chartTest(request):
+    if request.method == 'POST':
+        c_id=request.POST['c_id']
+        childRS= Child_details.objects.get(c_id=c_id)
+        c_dob=childRS.c_dob
+       
+        
+        with connection.cursor() as cursor:
+            query="SELECT vm_id,group_id, v_name, '"+str(c_dob)+"' + INTERVAL days_after_birth day as nxt_dt from vaccine_master"
+            #RS=connection.cursor().execute(query)
+            cursor.execute(query)
+            resultSet = cursor.fetchall()
+            print(resultSet)
+        # c_id=request.POST['c_id']
+        # childDetailRS=Vaccine_master.objects.filter(vm_id,group_id,v_name,days_after_birth)
+        # print(childDetailRS)
+        # dob="2020-01-01"
+        
+        context = {
+            'child': childRS,
+            "data": resultSet
+        }
+        return render(request, 'chartTest.html', context)
+    else:
+        return render(request, 'chartTest.html')
+
+        
+        
+
+#####################################################################
+def v_upcoming(request):
+    
+    return render(request, 'v_upcoming.html')
+#####################################################################
+def v_missed(request):
+    return render(request, 'v_missed.html')
+######################################################################
+def v_complete(request):
+    return render(request, 'v_complete.html')
+######################################################################
+def c_update(request):
+    if request.session.has_key('is_hwlogged'):
+        if request.method == 'POST':
+            cstaff = Child_details.objects.get(pk = request.POST.get('c_id'))
+            cstaff.c_fname = request.POST.get('c_fname')
+            cstaff.c_lname = request.POST.get('c_lname')
+            cstaff.c_mname = request.POST.get('c_mname')
+            cstaff.c_gender= request.POST.get('c_gender')
+            cstaff.c_dob = request.POST.get('c_dob')
+            cstaff.c_blood_group = request.POST.get('c_blood_group')
+            cstaff.c_height = request.POST.get('c_height')
+            cstaff.c_weight = request.POST.get('c_weight')
+            cstaff.category = request.POST.get('category')
+            cstaff.c_email_id = request.POST.get('c_email_id')
+            cstaff.c_mobile_num = request.POST.get('c_mobile_num')
+            cstaff.c_address = request.POST.get('c_address')
+            cstaff.c_pincode = request.POST.get('c_pincode')
+            cstaff.state = request.POST.get('state')
+            cstaff.city = request.POST.get('city')
+            cstaff.c_adhar_number = request.POST.get('c_adhar_number')
+            cstaff.save()
+            child = Child_details.objects.all()
+            context = {
+                "data": child
+            }
+            return render(request, 'c_update.html', context)
+        else:
+            child = Child_details.objects.all()
+            context = {
+                "data": child
+            }
+            return render(request, 'c_update.html', context)
+    return render(request,'index1.html')
+###################################################################
+def p_details(request):
+    pregnant = Pregnant_details.objects.all()
+    context = {
+        "data": pregnant
+    }
+    return render(request, 'p_details.html', context)
+####################################################################
+def delete_p_details(request, p_id):
+    iid = Pregnant_details.objects.get(pk = p_id)
+    iid.delete()
+    pregnant = Pregnant_details.objects.all()
+    context = {
+            "data": pregnant
+        }
+    return render(request, 'p_update.html', context)
+####################################################################
+def edit_p_details(request, p_id):
+    iid = Pregnant_details.objects.get(pk = p_id)
+    return render(request, 'edit_p_details.html', {"data" : iid})
+###################################################################
+def delete_c_details(request, c_id):
+    iid = Pregnant_details.objects.get(pk = c_id)
+    iid.delete()
+    child = Child_details.objects.all()
+    context = {
+            "data": child
+        }
+    return render(request, 'c_update.html', context)
+#####################################################################
+def edit_c_details(request, c_id):
+    iid = Child_details.objects.get(pk = c_id)
+    return render(request, 'edit_c_details.html', {"data" : iid})
+
+####################################################################
+def n_base(request):
+    return render(request, 'n_base.html')
+##################################################################
+def n_dashboard(request):
+    if request.session.has_key('is_hwlogged'):
+        upcoming_ncount=Upcoming_nutrition.objects.all().count()
+       
+        missed_ncount = Missed_nutrition.objects.all().count()
+        complete_ncount = Completed_nutrition.objects.all().count()
+        context = {
+            'upcoming_ncount':upcoming_ncount,
+            'missed_ncount':missed_ncount,
+            'complete_ncount':complete_ncount
+        }
+
+
+
+
+        return render(request, 'n_dashboard.html',context)
+    return render(request,'index1.html')
+
+##################################################################
+def checkin_nutrition(request):
+    if request.session.has_key('is_hwlogged'):
+        return render(request, 'checkin_nutrition.html')
+    return render(request,'index1.html')
+##################################################################
+def n_upcoming(request):
+    nupcoming= Upcoming_nutrition.objects.all()
+    context={
+        'data':nupcoming
+    }
+    return render(request, 'n_upcoming.html',context)
+    
+##################################################################
+def n_missed(request):
+    nMissed=Missed_nutrition.objects.all()
+    context={
+        'data':nMissed
+    }
+    return render(request, 'n_missed.html',context)
+##################################################################
+def n_complete(request):
+    nComplete= Upcoming_nutrition.objects.all()
+    context={
+        'data':nComplete
+    }
+    return render(request, 'n_complete.html',context)
+
+###################################################################
+def vaccinedetails(request):
+    vaccine = Vaccine_details.objects.all()
+    context = {
+        "data": vaccine
+    }
+    return render(request, 'vaccinedetails.html', context)
+
+    return render(request, 'vaccinedetails.html')
+
+###################################################################
+
+def nutritionDetails(request):
+    nutrition = Nutrition_master.objects.all()
+    context = {
+        "data": nutrition
+    }
+    return render(request, 'nutritionDetails.html', context)
+
+    
+
+###################################################################
+def childnutrition(request):
+    return render(request, 'childnutrition.html')
+#####################################################################
+def womennutrition(request):
+    return render(request, 'womennutrition.html')
+#####################################################################
+
+
+def donate(request):
+    return render(request, 'donate.html')
+#######################################################################
+
+def vaccinetrx(request):
+    if request.method == 'POST':
+        print("Request method was post")
+        c_id = request.POST['c_id']
+        group_id = request.POST['group_id']
+        #print(group_id)
+        vaccineMasterRS= Vaccine_master.objects.filter(group_id=group_id)
+        #vaccineMasterQuery= c.query
+        cnt=vaccineMasterRS.count() 
+        #dose_late_by to be implemented in future scope
+        STATIC_PART="insert into vaccine_trx(`c_id`,`group_id`,`vm_id`,`v_name`,`date_of_vaccine`,`next_vaccine_date`) values "
+        print(STATIC_PART)
+        startStr="('" + c_id + "','" + group_id +"','"
+        dynamicPart=""
+        print(cnt)
+        for i in range(cnt):
+            #print(vaccineMasterRS[i])
+            #dynamicPart=dynamicPart+vaccineMasterRS[i].v_name
+            if i<(cnt-1) :
+                rowQuery=startStr + str(vaccineMasterRS[i].vm_id)+"','"+vaccineMasterRS[i].v_name +"',current_date,current_date + INTERVAL '"+ str(vaccineMasterRS[i].next_visit) +"' day),"
+                dynamicPart=dynamicPart + rowQuery
+                
+                #print(rowQuery)
+                
+            else: 
+                rowQuery=startStr + str(vaccineMasterRS[i].vm_id)+"','"+vaccineMasterRS[i].v_name+"',current_date,current_date + INTERVAL '"+ str(vaccineMasterRS[i].next_visit) +"' day);"
+                dynamicPart=dynamicPart + rowQuery
+        
+        finalQuery=STATIC_PART + dynamicPart
+        print(finalQuery)
+        cursor=connection.cursor()
+      #  insert="INSERT INTO vaccine_trx (`c_id`,`group_id`) values('"+c_id+ "','"+ group_id+"')"
+        rowCount=cursor.execute(finalQuery)
+        
+        
+      
+        # if (rowCount>0):
+        #      messages.success(request, str(rowCount)+' Record(s) Inserted Successfully!')
+           
+        return render(request, 'vaccinetransaction.html')
+        #  alert ("Button was clicked");   
+      
+            
+            
+        
+    else:
+        return render(request, 'vaccinetransaction.html')
+
+
+    #############################################################
+
+def nutritiontest(request):
+    return render(request, 'nutritiontest.html')
+
+    ##############################################################
+
+# def nutritiontrx(request):
+#     if request.method == 'POST':
+#         print("Request method was post")
+#         #patientId=
+
+#         # c_id = request.POST['c_id']
+#         # p_id = request.POST['p_id']
+#     return render(request, 'nutritiontest.html')
+
+#################################################
+def c_details(request):
+    child = Child_details.objects.all()
+    context = {
+        "data": child
+    }
+    return render(request, 'c_details.html', context)
+
+
+def vaccinetransaction(request):
+    return render(request,'vaccinetransaction.html')
+
+############################################################
+
+def nutritiontrx(request):
+    if request.method=='POST':
+        print("Request method was post")
+        if request.POST['category']=='pregnant':
+            print(request.POST['category'], request.POST['patient_id'])
+            patient_id = request.POST['patient_id']
+            category = request.POST['category']
+            nutritionMasterRS= Nutrition_master.objects.filter(category=category)
+            cnt=nutritionMasterRS.count() 
+            print(cnt)
+            with connection.cursor() as cursor:
+                query="select l_dt,f_dt,datediff(l_dt,f_dt)+1 as dt_mon from (SELECT (concat(DATE_FORMAT(CURRENT_DATE, '%Y-%m'),'-1') + INTERVAL 1 month -INTERVAL 1 day) as l_dt,(SELECT concat(DATE_FORMAT(CURRENT_DATE, '%Y-%m'),'-1')+ interval 0 day) as f_dt)t"
+                print("query is:\n" + query)
+                cursor.execute(query)
+                resultSet = cursor.fetchall()
+                print("RS="+str(resultSet[0][2]))
+                print("RS[0]="+str(resultSet[0][2]))
+                #RS=connection.cursor().execute(query)
+                #print(queryRS)
+                STATICPART="insert into nutrition_trx(`patient_id`,`days_stock`,`date_of_action`, `category`) values "
+                insertValue="('" + str(patient_id)+ "','" +str(resultSet[0][2])+"',current_date ,'"+ str(category)+"');"
+                # dynamicPart=""
+                # # for i in range(cnt):
+                # #     if i<(cnt-1):
+                #         rowQuery= startStr + nutritionMasterRS[i].n_name+"','"+nutritionMasterRS[i].category+"');"
+                #         dynamicPart=dynamicPart + rowQuery
+                #         #print(dynamicPart)
+                insertNutritionTrx= STATICPART + insertValue
+                print(insertNutritionTrx)
+                cursor=connection.cursor()
+                rowCount=cursor.execute(insertNutritionTrx)
+                print(rowCount)
+                return render(request, 'nutritiontrx.html')
+    
+
+        else:
+            print(request.POST['category'], request.POST['patient_id'])
+            print(request.POST['category'], request.POST['patient_id'])
+            patient_id = request.POST['patient_id']
+            category = request.POST['category']
+            nutritionMasterRS= Nutrition_master.objects.filter(category=category)
+            cnt=nutritionMasterRS.count() 
+            print(cnt)
+            with connection.cursor() as cursor:
+                query="select l_dt,f_dt,datediff(l_dt,f_dt)+1 as dt_mon from (SELECT (concat(DATE_FORMAT(CURRENT_DATE, '%Y-%m'),'-1') + INTERVAL 1 month -INTERVAL 1 day) as l_dt,(SELECT concat(DATE_FORMAT(CURRENT_DATE, '%Y-%m'),'-1')+ interval 0 day) as f_dt)t"
+                print("query is:\n" + query)
+                cursor.execute(query)
+                resultSet = cursor.fetchall()
+                print("RS="+str(resultSet[0][2]))
+                print("RS[0]="+str(resultSet[0][2]))
+                #RS=connection.cursor().execute(query)
+                #print(queryRS)
+                STATICPART="insert into nutrition_trx(`patient_id`,`days_stock`,`date_of_action`, `category`) values "
+                insertValue="('" + str(patient_id)+ "','" +str(resultSet[0][2])+"',current_date ,'"+ str(category)+"');"
+                # dynamicPart=""
+                # # for i in range(cnt):
+                # #     if i<(cnt-1):
+                #         rowQuery= startStr + nutritionMasterRS[i].n_name+"','"+nutritionMasterRS[i].category+"');"
+                #         dynamicPart=dynamicPart + rowQuery
+                #         #print(dynamicPart)
+                insertNutritionTrx= STATICPART + insertValue
+                print(insertNutritionTrx)
+                cursor=connection.cursor()
+                rowCount=cursor.execute(insertNutritionTrx)
+                print(rowCount)
+                return render(request, 'nutritiontrx.html')
+                
+    else:
+        return render(request, 'nutritiontrx.html')
+
+#########################################################################
+
+def vtrxHistory(request):
+    
+    if request.method == 'POST':
+        c_id = request.POST['c_id']
+        childRS= Child_details.objects.get(c_id=c_id)
+        vaccineTrx = Vaccine_trx.objects.filter(c_id=c_id)
+        context = {
+            "child" : childRS,
+            "data": vaccineTrx
+            
+        }
+        return render(request, 'vtrxHistory.html', context)
+    else:
+        return render(request, 'vtrxHistory.html')
+
+
+
+#########################################################################
+
+
+def ntrxHistory(request):
+    if request.method == 'POST':
+        patient_id = request.POST['patient_id']
+        category= request.POST['category']
+        NutritionTrx= Nutrition_trx.objects.filter(patient_id=patient_id, category=category)
+        if category !=  'pregnant':
+            detailsRS= Child_details.objects.get(c_id=patient_id)
+        else:
+            detailsRS= Pregnant_details.objects.get(p_id=patient_id)
+            
+        context = {
+            "details": detailsRS,
+            "data": NutritionTrx
+            }
+        return render(request, 'ntrxHistory.html', context)
+    else:
+        return render(request, 'ntrxHistory.html')
+
+########################################################################
+
+
+
+
+#######################################################################3
